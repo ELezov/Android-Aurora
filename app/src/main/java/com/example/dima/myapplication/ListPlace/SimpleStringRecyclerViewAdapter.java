@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.example.dima.myapplication.Place.Result;
 import com.example.dima.myapplication.R;
 import com.example.dima.myapplication.Utils;
 
@@ -25,8 +26,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
 
     private final TypedValue mTypedValue = new TypedValue();
     private int mBackground;
-    private List<String> mValues;
-    Utils utils;
+    private List<Result> data;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public String mBoundString;
@@ -50,8 +50,8 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
         }
     }
 
-    public String getValueAt(int position) {
-        return mValues.get(position);
+    public Result getResultAt(int position) {
+        return data.get(position);
     }
 
     public SimpleStringRecyclerViewAdapter(Context context) {
@@ -60,8 +60,8 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
         //mValues = items;
     }
 
-    public void add(List<String> items){
-        mValues=items;
+    public void add(List<Result> items){
+        data=items;
     }
 
     @Override
@@ -73,16 +73,17 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mBoundString = mValues.get(position);
-        holder.mTextView.setText(mValues.get(position));
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.mBoundString = data.get(position).getName();
+        holder.mTextView.setText(data.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, PlaceDetailActivity.class);
-                intent.putExtra(PlaceDetailActivity.EXTRA_NAME, holder.mBoundString);
+                intent.putExtra(PlaceDetailActivity.PlACE_NAME, holder.mBoundString);
+                intent.putExtra(PlaceDetailActivity.ID_PLACE,data.get(position).getPlaceId());
 
                 context.startActivity(intent);
             }
@@ -123,6 +124,6 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return data.size();
     }
 }

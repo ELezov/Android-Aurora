@@ -24,6 +24,7 @@ import com.example.dima.myapplication.Direction.Route;
 import com.example.dima.myapplication.Direction.RouteDecode;
 import com.example.dima.myapplication.Direction.Steps;
 import com.example.dima.myapplication.Place.Places;
+import com.example.dima.myapplication.Place.Result;
 import com.example.dima.myapplication.R;
 import com.example.dima.myapplication.Place.PlaceAPI;
 import com.example.dima.myapplication.Utils;
@@ -77,7 +78,6 @@ public class PlaceListFragment extends Fragment {
         }
 
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
-
         String type="art_gallery|city_hall|museum|park|zoo";
         utils=Utils.getInstance();
 
@@ -101,19 +101,21 @@ public class PlaceListFragment extends Fragment {
 
         PlaceAPI service = retrofit.create(PlaceAPI.class);
 
-        Call<Places> call = service.getNearbyPlaces(type, latitude + "," + longitude, 5000);
+        Call<Places> call = service.getNearbyPlaces(type, latitude + "," + longitude, 10000);
 
         call.enqueue(new Callback<Places>() {
             @Override
             public void onResponse(Call<Places> call, Response<Places> response) {
                 utils.setPlaces(response.body());
-                //Log.v("URLLLL",call.request().url().toString());
-                List<String> arr=new ArrayList<String>();
+
+                /*List<String> arr=new ArrayList<String>();
                 for (int i = 0; i < response.body().getResults().size(); i++) {
                     arr.add(i,response.body().getResults().get(i).getName());
-                    //Log.v("IIIII",response.body().getResults().get(i).getName());
-                }
 
+                }*/
+
+                List<Result> arr=new ArrayList<Result>();
+                arr=utils.getPlaces().getResults();
                 MyAdapter.add(arr);
                 rv.setAdapter(MyAdapter);
                 //setupRecyclerView(rv);
@@ -138,12 +140,6 @@ public class PlaceListFragment extends Fragment {
                 .build();
 
         DirectionAPI service = retrofit.create(DirectionAPI.class);
-
-       /* for (int i=0;i<utils.getExample().getResults().size();i++)
-        {
-            Log.v("pPPPP",utils.getExample().getResults().get(i).getName());
-        }
-        */
 
         int size=utils.getPlaces().getResults().size();
         Double lat1 = utils.getPlaces().getResults().get(0).getGeometry().getLocation().getLat();
@@ -175,10 +171,6 @@ public class PlaceListFragment extends Fragment {
              }
          }
 
-        //Log.v("1",lat1.toString() + "," + lon1.toString());
-        //Log.v("2",lat2.toString() + "," + lon2.toString());
-        //Log.v("way",waypoint);
-
         Call<DirectionResults> call = service.getJson(lat1.toString() + "," + lon1.toString(), lat2.toString() + "," + lon2.toString(),waypoint);
 
         call.enqueue(new Callback<DirectionResults>(){
@@ -186,11 +178,7 @@ public class PlaceListFragment extends Fragment {
             @Override
             public void onResponse(Call<DirectionResults> call, Response<DirectionResults> response) {
                 DirectionResults directionResults=response.body();
-                //Log.v("AAAAAAAAA",call.request().url().toString());
-                //utils.setDirResults(response.body());
                 progressDialog.dismiss();
-
-                //Log.v("AAAAAAAAAAAAAAA", "inside on success" +directionResults.getRoutes().size());
                 ArrayList<LatLng> routelist = new ArrayList<LatLng>();
                 if(directionResults.getRoutes().size()>0) {
                     ArrayList<LatLng> decodelist;
@@ -216,7 +204,6 @@ public class PlaceListFragment extends Fragment {
                         }
                     }
                 }
-                //Log.v("size",""+routelist.size());
                 utils.setDirResults(routelist);
                 progressDialog.dismiss();
             }
