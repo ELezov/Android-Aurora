@@ -8,18 +8,14 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 
 import com.example.dima.myapplication.Direction.DirectionAPI;
@@ -27,9 +23,9 @@ import com.example.dima.myapplication.Direction.DirectionResults;
 import com.example.dima.myapplication.Direction.Route;
 import com.example.dima.myapplication.Direction.RouteDecode;
 import com.example.dima.myapplication.Direction.Steps;
-import com.example.dima.myapplication.Place.PlaceAPI;
+import com.example.dima.myapplication.Place.Places;
 import com.example.dima.myapplication.R;
-import com.example.dima.myapplication.Retrofit.Example;
+import com.example.dima.myapplication.Place.PlaceAPI;
 import com.example.dima.myapplication.Utils;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -72,15 +68,8 @@ public class PlaceListFragment extends Fragment {
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            //return TODO;
         }
+
         loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if (loc.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
             latitude=loc.getLatitude();
@@ -89,7 +78,7 @@ public class PlaceListFragment extends Fragment {
 
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
 
-        String type="art_gallery|church|city_hall|museum|park|zoo";
+        String type="art_gallery|city_hall|museum|park|zoo";
         utils=Utils.getInstance();
 
         SimpleStringRecyclerViewAdapter adapter=new SimpleStringRecyclerViewAdapter(getActivity());
@@ -112,16 +101,17 @@ public class PlaceListFragment extends Fragment {
 
         PlaceAPI service = retrofit.create(PlaceAPI.class);
 
-        Call<Example> call = service.getNearbyPlaces(type, latitude + "," + longitude, 5000);
+        Call<Places> call = service.getNearbyPlaces(type, latitude + "," + longitude, 5000);
 
-        call.enqueue(new Callback<Example>() {
+        call.enqueue(new Callback<Places>() {
             @Override
-            public void onResponse(Call<Example> call, Response<Example> response) {
-                utils.setExample(response.body());
+            public void onResponse(Call<Places> call, Response<Places> response) {
+                utils.setPlaces(response.body());
+                //Log.v("URLLLL",call.request().url().toString());
                 List<String> arr=new ArrayList<String>();
                 for (int i = 0; i < response.body().getResults().size(); i++) {
                     arr.add(i,response.body().getResults().get(i).getName());
-                    Log.v("IIIII",response.body().getResults().get(i).getName());
+                    //Log.v("IIIII",response.body().getResults().get(i).getName());
                 }
 
                 MyAdapter.add(arr);
@@ -131,7 +121,7 @@ public class PlaceListFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Example> call, Throwable t) {
+            public void onFailure(Call<Places> call, Throwable t) {
 
             }
 
@@ -149,19 +139,20 @@ public class PlaceListFragment extends Fragment {
 
         DirectionAPI service = retrofit.create(DirectionAPI.class);
 
-        for (int i=0;i<utils.getExample().getResults().size();i++)
+       /* for (int i=0;i<utils.getExample().getResults().size();i++)
         {
             Log.v("pPPPP",utils.getExample().getResults().get(i).getName());
         }
+        */
 
-        int size=utils.getExample().getResults().size();
-        Double lat1 = utils.getExample().getResults().get(0).getGeometry().getLocation().getLat();
-        Double lon1 = utils.getExample().getResults().get(0).getGeometry().getLocation().getLng();
+        int size=utils.getPlaces().getResults().size();
+        Double lat1 = utils.getPlaces().getResults().get(0).getGeometry().getLocation().getLat();
+        Double lon1 = utils.getPlaces().getResults().get(0).getGeometry().getLocation().getLng();
 
-        Double lat2 = utils.getExample().getResults().get(1).getGeometry().getLocation().getLat();
-        Double lon2 = utils.getExample().getResults().get(1).getGeometry().getLocation().getLng();
+        Double lat2 = utils.getPlaces().getResults().get(1).getGeometry().getLocation().getLat();
+        Double lon2 = utils.getPlaces().getResults().get(1).getGeometry().getLocation().getLng();
         String waypoint="";
-        if (utils.getExample().getResults().size()>2)
+        if (utils.getPlaces().getResults().size()>2)
         {
             waypoint = "optimize:true|";
             int max=0;
@@ -172,21 +163,21 @@ public class PlaceListFragment extends Fragment {
             {
                 if (i==size-1)
                 {
-                    waypoint+=utils.getExample().getResults().get(i).getGeometry().getLocation().getLat().toString()+
-                            ","+utils.getExample().getResults().get(i).getGeometry().getLocation().getLng().toString();
+                    waypoint+=utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLat().toString()+
+                            ","+utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLng().toString();
                 }
                 else {
-                    waypoint+=utils.getExample().getResults().get(i).getGeometry().getLocation().getLat().toString()+
-                            ","+utils.getExample().getResults().get(i).getGeometry().getLocation().getLng().toString()+"|";
+                    waypoint+=utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLat().toString()+
+                            ","+utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLng().toString()+"|";
                 }
 
 
              }
          }
 
-        Log.v("1",lat1.toString() + "," + lon1.toString());
-        Log.v("2",lat2.toString() + "," + lon2.toString());
-        Log.v("way",waypoint);
+        //Log.v("1",lat1.toString() + "," + lon1.toString());
+        //Log.v("2",lat2.toString() + "," + lon2.toString());
+        //Log.v("way",waypoint);
 
         Call<DirectionResults> call = service.getJson(lat1.toString() + "," + lon1.toString(), lat2.toString() + "," + lon2.toString(),waypoint);
 
@@ -195,11 +186,11 @@ public class PlaceListFragment extends Fragment {
             @Override
             public void onResponse(Call<DirectionResults> call, Response<DirectionResults> response) {
                 DirectionResults directionResults=response.body();
-                Log.v("AAAAAAAAA",call.request().url().toString());
+                //Log.v("AAAAAAAAA",call.request().url().toString());
                 //utils.setDirResults(response.body());
                 progressDialog.dismiss();
 
-                Log.v("AAAAAAAAAAAAAAA", "inside on success" +directionResults.getRoutes().size());
+                //Log.v("AAAAAAAAAAAAAAA", "inside on success" +directionResults.getRoutes().size());
                 ArrayList<LatLng> routelist = new ArrayList<LatLng>();
                 if(directionResults.getRoutes().size()>0) {
                     ArrayList<LatLng> decodelist;
@@ -213,19 +204,19 @@ public class PlaceListFragment extends Fragment {
                             for (int i = 0; i < steps.size(); i++) {
                                 step = steps.get(i);
                                 location = step.getStart_location();
-                                Log.v("1111", step.getStart_location().getLat() + "," + step.getStart_location().getLng());
+                                //Log.v("1111", step.getStart_location().getLat() + "," + step.getStart_location().getLng());
                                 routelist.add(new LatLng(location.getLat(), location.getLng()));
                                 polyline = step.getPolyline().getPoints();
                                 decodelist = RouteDecode.decodePoly(polyline);
                                 routelist.addAll(decodelist);
                                 location = step.getEnd_location();
-                                Log.v("2222", step.getEnd_location().getLat() + "," + step.getEnd_location().getLng());
+                                //Log.v("2222", step.getEnd_location().getLat() + "," + step.getEnd_location().getLng());
                                 routelist.add(new LatLng(location.getLat(), location.getLng()));
                             }
                         }
                     }
                 }
-                Log.v("size",""+routelist.size());
+                //Log.v("size",""+routelist.size());
                 utils.setDirResults(routelist);
                 progressDialog.dismiss();
             }

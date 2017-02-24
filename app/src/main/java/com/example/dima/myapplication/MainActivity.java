@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                // Fragment fragment = null;
                // Class fragmentClass = null;
-                Intent intent = new Intent(getApplicationContext(),Main2Activity.class);
+                Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
                 startActivity(intent);
                 //fragmentClass = FragmentMap.class;
                // try {

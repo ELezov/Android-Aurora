@@ -1,9 +1,8 @@
 package com.example.dima.myapplication;
 
 import com.example.dima.myapplication.Details.ResultDetail;
-import com.example.dima.myapplication.Direction.DirectionResults;
-import com.example.dima.myapplication.Place.Place;
-import com.example.dima.myapplication.Retrofit.Example;
+
+import com.example.dima.myapplication.Place.Places;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 public class Utils {
     public static final String GOOGLE_API_KEY = "AIzaSyDnwLF2-WfK8cVZt9OoDYJ9Y8kspXhEHfI";
     public static final String GET_PLACE_URL = "https://maps.googleapis.com/maps/";
-    public Example example;
+    public Places places;
     public ArrayList<LatLng> dirResults;
     public ResultDetail resultDetail;
     private static Utils utils;
@@ -49,11 +48,11 @@ public class Utils {
     }
 
 
-    public void setExample(Example ex){
-        this.example=ex;
+    public void setPlaces(Places ex){
+        this.places=ex;
     }
-    public Example getExample() {
-        return example;
+    public Places getPlaces() {
+        return places;
     }
 
     public String getApiKey(){
