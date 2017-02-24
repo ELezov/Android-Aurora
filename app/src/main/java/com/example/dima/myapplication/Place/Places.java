@@ -1,4 +1,4 @@
-package com.example.dima.myapplication.Retrofit;
+package com.example.dima.myapplication.Place;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by USER on 18.02.2017.
  */
 
-public class Example {
+public class Places {
     @SerializedName("html_attributions")
     @Expose
     private List<Object> htmlAttributions = new ArrayList<Object>();

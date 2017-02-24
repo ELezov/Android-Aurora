@@ -1,7 +1,6 @@
 package com.example.dima.myapplication.ListPlace;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -10,18 +9,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.dima.myapplication.Main2Activity;
+import com.example.dima.myapplication.MapsActivity;
 import com.example.dima.myapplication.R;
 
 import java.util.ArrayList;
@@ -129,23 +125,14 @@ public class ListPlacesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this, Main2Activity.class);
+        Intent i = new Intent(this, MapsActivity.class);
         startActivity(i);
     }
-/*
-    private void setNightMode(@AppCompatDelegate.NightMode int nightMode) {
-        AppCompatDelegate.setDefaultNightMode(nightMode);
-
-        if (Build.VERSION.SDK_INT >= 11) {
-            recreate();
-        }
-    }
-    */
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new PlaceListFragment(), "Category 1");
-        adapter.addFragment(new PlaceListFragment(), "Category 2");
+        adapter.addFragment(new PlaceListFragment(), "Nearby Places");
+        adapter.addFragment(new PlaceListFragment2(), "My Places");
         viewPager.setAdapter(adapter);
     }
 

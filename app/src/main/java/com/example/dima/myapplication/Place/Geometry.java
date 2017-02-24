@@ -1,4 +1,4 @@
-package com.example.dima.myapplication.Retrofit;
+package com.example.dima.myapplication.Place;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

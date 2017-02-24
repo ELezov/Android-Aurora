@@ -34,10 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ListPlace.ListPlacesActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
@@ -46,6 +42,8 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".MapsActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

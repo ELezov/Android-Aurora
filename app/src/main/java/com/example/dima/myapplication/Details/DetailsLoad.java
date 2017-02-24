@@ -1,8 +1,5 @@
 package com.example.dima.myapplication.Details;
 
-import com.example.dima.myapplication.Place.PlaceAPI;
-import com.example.dima.myapplication.Retrofit.*;
-import com.example.dima.myapplication.Retrofit.Example;
 import com.example.dima.myapplication.Utils;
 
 import retrofit2.Call;
