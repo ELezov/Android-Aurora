@@ -7,9 +7,10 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dima.myapplication.Place.Result;
 import com.example.dima.myapplication.R;
@@ -18,21 +19,24 @@ import com.example.dima.myapplication.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by USER on 19.02.2017.
  */
 
-public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<RecyclerViewNearbyPlacesAdapter.ViewHolder> {
 
     private final TypedValue mTypedValue = new TypedValue();
     private int mBackground;
-    private List<Result> data;
+    private List<Result> data=new ArrayList<Result>();
+    Utils utils;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public String mBoundString;
 
         public final View mView;
         //public final ImageView mImageView;
+        public Button addButton;
         public final TextView mTextView;
         public CheckBox mPlaceCheckBox;
 
@@ -41,7 +45,8 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
             mView = view;
             //mImageView = (ImageView) view.findViewById(R.id.avatar);
             mTextView = (TextView) view.findViewById(android.R.id.text1);
-            mPlaceCheckBox = (CheckBox) view.findViewById(R.id.checkBox);
+            addButton=(Button)view.findViewById(R.id.addButton);
+            //mPlaceCheckBox = (CheckBox) view.findViewById(R.id.checkBox);
         }
 
         @Override
@@ -54,7 +59,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
         return data.get(position);
     }
 
-    public SimpleStringRecyclerViewAdapter(Context context) {
+    public RecyclerViewNearbyPlacesAdapter(Context context) {
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
         //mValues = items;
@@ -67,7 +72,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.list_item_nearby_place, parent, false);
         view.setBackgroundResource(mBackground);
         return new ViewHolder(view);
     }
@@ -76,6 +81,15 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mBoundString = data.get(position).getName();
         holder.mTextView.setText(data.get(position).getName());
+
+        holder.addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //utils.setSelectPlaces(data.get(position));
+                //Toast.makeText()
+
+            }
+        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,12 +103,12 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
             }
         });
 
-        holder.mPlaceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*holder.mPlaceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               // utils.setFavorite(isChecked);
+                utils.setFavorite(isChecked);
                 if(isChecked) {
-                    /*utils.setExample();
+                    utils.setExample();
                     List<String> arr=new ArrayList<>();
 
                     for (int i = 0; i < response.body().getResults().size(); i++) {
@@ -104,13 +118,13 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
 
 
                 } else {
-                    // PlaceListFragment2.
-                    System.out.println("нет"); */
+                     PlaceListFragment2.
+                    System.out.println("нет");
                 }
 
 
             }
-        });
+        });*/
 
 
         // надо разобраться
