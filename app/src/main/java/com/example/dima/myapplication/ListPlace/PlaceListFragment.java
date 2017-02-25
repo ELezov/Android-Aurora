@@ -1,6 +1,5 @@
 package com.example.dima.myapplication.ListPlace;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -16,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.example.dima.myapplication.Direction.DirectionAPI;
@@ -32,7 +32,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,39 +51,75 @@ public class PlaceListFragment extends Fragment {
     List<String> arr;
     ProgressDialog progressDialog;
 
-    SimpleStringRecyclerViewAdapter MyAdapter;
+    RecyclerViewNearbyPlacesAdapter MyAdapter;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rv = (RecyclerView) inflater.inflate(
-                R.layout.fragment_place_list, container, false);
+                R.layout.fragment_nearby_places_list, container, false);
 
-        progressDialog=new ProgressDialog(getContext());
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Please wait!");
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+
+       /* if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        }
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
 
+            return Fragment.
+                    requestPermissions(getContext(),
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    },1);
+        }*/
+
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        } else {
+            Log.e("DB", "PERMISSION GRANTED");
+        }
         loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (loc.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
-            latitude=loc.getLatitude();
-            longitude=loc.getLongitude();
+        if (loc==null)
+            loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            if (loc.getProvider().equals(LocationManager.NETWORK_PROVIDER) || loc.getProvider().equals(locationManager.GPS_PROVIDER)) {
+                latitude = loc.getLatitude();
+                longitude = loc.getLongitude();
+            }
+
+            rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
+            String type = "art_gallery|city_hall|museum|park|zoo";
+            utils = Utils.getInstance();
+
+            RecyclerViewNearbyPlacesAdapter adapter = new RecyclerViewNearbyPlacesAdapter(getActivity());
+            MyAdapter = new RecyclerViewNearbyPlacesAdapter(getActivity());
+
+            build_retrofit_and_get_response(type);
+
         }
-
-        rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
-        String type="art_gallery|city_hall|museum|park|zoo";
-        utils=Utils.getInstance();
-
-        SimpleStringRecyclerViewAdapter adapter=new SimpleStringRecyclerViewAdapter(getActivity());
-        MyAdapter=new SimpleStringRecyclerViewAdapter(getActivity());
-
-        build_retrofit_and_get_response(type);
+        else
+        {
+            progressDialog.dismiss();
+            Toast.makeText(getContext(),"Включите GPS",Toast.LENGTH_LONG).show();
+        }
 
         return rv;
     }
@@ -106,7 +141,7 @@ public class PlaceListFragment extends Fragment {
         call.enqueue(new Callback<Places>() {
             @Override
             public void onResponse(Call<Places> call, Response<Places> response) {
-                utils.setPlaces(response.body());
+                utils.setNearbyPlaces(response.body().getResults());
 
                 /*List<String> arr=new ArrayList<String>();
                 for (int i = 0; i < response.body().getResults().size(); i++) {
@@ -115,7 +150,7 @@ public class PlaceListFragment extends Fragment {
                 }*/
 
                 List<Result> arr=new ArrayList<Result>();
-                arr=utils.getPlaces().getResults();
+                arr=utils.getNearbyPlaces();
                 MyAdapter.add(arr);
                 rv.setAdapter(MyAdapter);
                 //setupRecyclerView(rv);
@@ -141,14 +176,14 @@ public class PlaceListFragment extends Fragment {
 
         DirectionAPI service = retrofit.create(DirectionAPI.class);
 
-        int size=utils.getPlaces().getResults().size();
-        Double lat1 = utils.getPlaces().getResults().get(0).getGeometry().getLocation().getLat();
-        Double lon1 = utils.getPlaces().getResults().get(0).getGeometry().getLocation().getLng();
+        int size=utils.getNearbyPlaces().size();
+        Double lat1 = utils.getNearbyPlaces().get(0).getGeometry().getLocation().getLat();
+        Double lon1 = utils.getNearbyPlaces().get(0).getGeometry().getLocation().getLng();
 
-        Double lat2 = utils.getPlaces().getResults().get(1).getGeometry().getLocation().getLat();
-        Double lon2 = utils.getPlaces().getResults().get(1).getGeometry().getLocation().getLng();
+        Double lat2 = utils.getNearbyPlaces().get(1).getGeometry().getLocation().getLat();
+        Double lon2 = utils.getNearbyPlaces().get(1).getGeometry().getLocation().getLng();
         String waypoint="";
-        if (utils.getPlaces().getResults().size()>2)
+        if (utils.getNearbyPlaces().size()>2)
         {
             waypoint = "optimize:true|";
             int max=0;
@@ -159,12 +194,12 @@ public class PlaceListFragment extends Fragment {
             {
                 if (i==size-1)
                 {
-                    waypoint+=utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLat().toString()+
-                            ","+utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLng().toString();
+                    waypoint+=utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLat().toString()+
+                            ","+utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLng().toString();
                 }
                 else {
-                    waypoint+=utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLat().toString()+
-                            ","+utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLng().toString()+"|";
+                    waypoint+=utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLat().toString()+
+                            ","+utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLng().toString()+"|";
                 }
 
 
@@ -216,14 +251,14 @@ public class PlaceListFragment extends Fragment {
     }
 
 
-    private List<String> getRandomSublist(String[] array, int amount) {
+    /*private List<String> getRandomSublist(String[] array, int amount) {
         ArrayList<String> list = new ArrayList<>(amount);
         Random random = new Random();
         while (list.size() < amount) {
             list.add(array[random.nextInt(array.length)]);
         }
         return list;
-    }
+    }*/
 
 
 

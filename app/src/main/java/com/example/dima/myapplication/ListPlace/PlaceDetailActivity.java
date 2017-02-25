@@ -99,10 +99,22 @@ public class PlaceDetailActivity extends AppCompatActivity {
                     //myAdapter.notifyDataSetChanged();
                     listReview.setAdapter(myAdapter);
                     Log.v("OHHHHHHH",""+listReview.getAdapter().getItemCount());
-                    Log.v("Phone", response.body().getResult().getInternationalPhoneNumber().toString());
+                    try {
+                        Log.v("Phone", response.body().getResult().getInternationalPhoneNumber().toString());
+                    }catch (Exception e){
+                        Log.v("PhoneFail","It's shit");
+                    }
                     Log.v("Address", response.body().getResult().getAddressComponents().get(2).getLongName());
                     Log.v("Address", response.body().getResult().getFormattedAddress());
-                    Log.v("Site", response.body().getResult().getWebsite());
+                    try{
+                        if (response.body().getResult().getWebsite()==null)
+                            Log.v("AAAA","FAIL1");
+                        Log.v("Site", response.body().getResult().getWebsite());
+                    } catch (Exception e){
+                        Log.v("AAAA","It's fail");
+                    }
+
+
                 }
             }
 

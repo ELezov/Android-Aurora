@@ -91,32 +91,32 @@ public class FragmentMap extends Fragment {
 
 
                 Log.d("MyLog", "utils.getExample()!=null");
-                if(utils.getPlaces()!=null)
+                if(utils.getNearbyPlaces().size()!=0)
                 {
-                    int count=utils.getPlaces().getResults().size();
+                    int count=utils.getNearbyPlaces().size();
                     if (count>10)
                         count=10;
                     for (int i=0;i<10;i++)
                     {
                         if (i<2) {
                             googleMap.addMarker(new MarkerOptions()
-                                    .title(utils.getPlaces().getResults().get(i).getName()
+                                    .title(utils.getNearbyPlaces().get(i).getName()
                                     )
                                     .position(
-                                            new LatLng(utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLat(),
-                                                    utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLng()))
-                                    .snippet(utils.getPlaces().getResults().get(i).getVicinity())
+                                            new LatLng(utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLat(),
+                                                    utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLng()))
+                                    .snippet(utils.getNearbyPlaces().get(i).getVicinity())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                             );
                         }
                         else {
                             googleMap.addMarker(new MarkerOptions()
-                                    .title(utils.getPlaces().getResults().get(i).getName()
+                                    .title(utils.getNearbyPlaces().get(i).getName()
                                     )
                                     .position(
-                                            new LatLng(utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLat(),
-                                                    utils.getPlaces().getResults().get(i).getGeometry().getLocation().getLng()))
-                                    .snippet(utils.getPlaces().getResults().get(i).getVicinity())
+                                            new LatLng(utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLat(),
+                                                    utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLng()))
+                                    .snippet(utils.getNearbyPlaces().get(i).getVicinity())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                             );
                         }

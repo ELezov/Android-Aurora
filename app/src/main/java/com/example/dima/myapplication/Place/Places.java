@@ -24,6 +24,10 @@ public class Places {
     @Expose
     private String status;
 
+
+    public void addToListResult(Result result){
+        results.add(result);
+    }
     /**
      *
      * @return

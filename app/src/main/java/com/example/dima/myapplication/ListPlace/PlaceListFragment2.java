@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class PlaceListFragment2 extends Fragment {
     Double longitude;
     Double latitude;
 
-   public  SimpleStringRecyclerViewAdapter MyAdapter;
+   public RecyclerViewNearbyPlacesAdapter MyAdapter;
     ProgressDialog progressDialog;
 
 
@@ -37,7 +38,7 @@ public class PlaceListFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rv = (RecyclerView) inflater.inflate(
-                R.layout.fragment_place_list, container, false);
+                R.layout.fragment_nearby_places_list, container, false);
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
@@ -48,8 +49,15 @@ public class PlaceListFragment2 extends Fragment {
         }
 
 
-        SimpleStringRecyclerViewAdapter adapter = new SimpleStringRecyclerViewAdapter(getActivity());
+        RecyclerViewNearbyPlacesAdapter adapter = new RecyclerViewNearbyPlacesAdapter(getActivity());
         MyAdapter = adapter;
+        try {
+            MyAdapter.add(utils.getSelectPlaces());
+        }catch (Exception e){
+            Log.v("fff","пусто тут");
+        }
+        MyAdapter.notifyDataSetChanged();
+        rv.setAdapter(MyAdapter);
 
 
         return rv;

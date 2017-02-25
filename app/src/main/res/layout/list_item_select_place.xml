@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:gravity="center_vertical"
+    android:weightSum="1">
+
+
+    <TextView
+        android:id="@+id/select_place_name"
+        android:layout_width="225dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"/>
+
+    <Button
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteButton"
+        android:text="Delete"
+        android:layout_weight="0.36" />
+
+    <!--<CheckBox-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="4dp"-->
+    <!--android:id="@+id/checkBox"/>-->
+
+</LinearLayout>
