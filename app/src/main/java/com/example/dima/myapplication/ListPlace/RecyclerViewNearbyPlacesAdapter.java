@@ -3,6 +3,7 @@ package com.example.dima.myapplication.ListPlace;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,8 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
     public RecyclerViewNearbyPlacesAdapter(Context context) {
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
         mBackground = mTypedValue.resourceId;
+
+        utils=Utils.getInstance();
         //mValues = items;
     }
 
@@ -85,8 +88,8 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
         holder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //utils.setSelectPlaces(data.get(position));
-                //Toast.makeText()
+                utils.addToSelectPlaces(data.get(position));
+                Log.v("MyNearbyPlaces",""+utils.getSelectPlaces().size());
 
             }
         });
