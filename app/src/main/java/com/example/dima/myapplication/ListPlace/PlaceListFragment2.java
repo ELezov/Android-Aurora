@@ -30,7 +30,7 @@ public class PlaceListFragment2 extends Fragment {
     Double longitude;
     Double latitude;
 
-   public RecyclerViewNearbyPlacesAdapter MyAdapter;
+   public RecyclerViewSelectPlacesAdapter MyAdapter;
     ProgressDialog progressDialog;
 
 
@@ -38,24 +38,11 @@ public class PlaceListFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rv = (RecyclerView) inflater.inflate(
-                R.layout.fragment_nearby_places_list, container, false);
-
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-        }
-
-
-        RecyclerViewNearbyPlacesAdapter adapter = new RecyclerViewNearbyPlacesAdapter(getActivity());
+                R.layout.fragment_select_places_list, container, false);
+        utils=Utils.getInstance();
+        RecyclerViewSelectPlacesAdapter adapter = new RecyclerViewSelectPlacesAdapter();
         MyAdapter = adapter;
-        try {
-            MyAdapter.add(utils.getSelectPlaces());
-        }catch (Exception e){
-            Log.v("fff","пусто тут");
-        }
+        MyAdapter.add(utils.getSelectPlaces());
         MyAdapter.notifyDataSetChanged();
         rv.setAdapter(MyAdapter);
 

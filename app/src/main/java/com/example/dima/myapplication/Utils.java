@@ -16,8 +16,25 @@ import java.util.List;
 public class Utils {
     public static final String GOOGLE_API_KEY = "AIzaSyDnwLF2-WfK8cVZt9OoDYJ9Y8kspXhEHfI";
     public static final String BASE_URL = "https://maps.googleapis.com/maps/";
-    public List<Result> nearbyPlaces=new ArrayList<Result>();
-    public List<Result> selectPlaces=new ArrayList<Result>();
+    public List<Result> nearbyPlaces;
+    public List<Result> selectPlaces;
+
+
+    public ArrayList<LatLng> dirResults;
+    public ResultDetail resultDetail;
+    private static Utils utils;
+
+    private Utils(){
+        nearbyPlaces=new ArrayList<Result>();
+        selectPlaces=new ArrayList<Result>();
+    }
+
+    public static Utils getInstance(){
+        if(utils==null){
+            utils=new Utils();
+        }
+        return utils;
+    }
 
     public List<Result> getNearbyPlaces() {
         return nearbyPlaces;
@@ -25,6 +42,10 @@ public class Utils {
 
     public void setNearbyPlaces(List<Result> nearbyPlaces) {
         this.nearbyPlaces = nearbyPlaces;
+    }
+
+    public void addToNearbyPlaces(Result result){
+        nearbyPlaces.add(result);
     }
 
     public List<Result> getSelectPlaces() {
@@ -35,9 +56,9 @@ public class Utils {
         this.selectPlaces = selectPlaces;
     }
 
-    public ArrayList<LatLng> dirResults;
-    public ResultDetail resultDetail;
-    private static Utils utils;
+    public void addToSelectPlaces(Result result){
+        selectPlaces.add(result);
+    }
 
     public ResultDetail getResultDetail() {
         return resultDetail;
@@ -54,17 +75,6 @@ public class Utils {
     public void setDirResults(ArrayList<LatLng> dirResults) {
 
         this.dirResults = dirResults;
-    }
-
-    private Utils(){
-
-    }
-
-    public static Utils getInstance(){
-        if(utils==null){
-            utils=new Utils();
-        }
-        return utils;
     }
 
     public String getApiKey(){
