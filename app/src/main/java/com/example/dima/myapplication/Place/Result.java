@@ -51,11 +51,22 @@ public class Result {
     @Expose
     private Integer priceLevel;
 
+
+
+   /* public Result(String name,Double lat,Double lon){
+        this.name=name;
+        Location location=new Location();
+        location.setLat(lat);
+        location.setLng(lon);
+        this.geometry.setLocation(location);
+    }*/
+
     /**
      *
      * @return
      * The geometry
      */
+
     public Geometry getGeometry() {
         return geometry;
     }

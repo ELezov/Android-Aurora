@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.api.Result;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by USER on 19.02.2017.
@@ -91,38 +93,42 @@ public class FragmentMap extends Fragment {
 
 
                 Log.d("MyLog", "utils.getExample()!=null");
-                if(utils.getNearbyPlaces().size()!=0)
+                if(utils.getMyTravel().size()!=0)
                 {
-                    int count=utils.getNearbyPlaces().size();
-                    if (count>10)
-                        count=10;
-                    for (int i=0;i<10;i++)
+                    int count=utils.getMyTravel().size();
+
+                    List<com.example.dima.myapplication.Place.Result> myTravelPlaces=utils.getMyTravel();
+
+                    for (int i=0;i<count;i++)
                     {
                         if (i<2) {
                             googleMap.addMarker(new MarkerOptions()
-                                    .title(utils.getNearbyPlaces().get(i).getName()
+                                    .title(myTravelPlaces.get(i).getName()
                                     )
                                     .position(
-                                            new LatLng(utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLat(),
-                                                    utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLng()))
-                                    .snippet(utils.getNearbyPlaces().get(i).getVicinity())
+                                            new LatLng(myTravelPlaces.get(i).getGeometry().getLocation().getLat(),
+                                                    myTravelPlaces.get(i).getGeometry().getLocation().getLng()))
+                                    .snippet(myTravelPlaces.get(i).getVicinity())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                             );
                         }
                         else {
                             googleMap.addMarker(new MarkerOptions()
-                                    .title(utils.getNearbyPlaces().get(i).getName()
+                                    .title(myTravelPlaces.get(i).getName()
                                     )
                                     .position(
-                                            new LatLng(utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLat(),
-                                                    utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLng()))
-                                    .snippet(utils.getNearbyPlaces().get(i).getVicinity())
+                                            new LatLng(myTravelPlaces.get(i).getGeometry().getLocation().getLat(),
+                                                    myTravelPlaces.get(i).getGeometry().getLocation().getLng()))
+                                    .snippet(myTravelPlaces.get(i).getVicinity())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                             );
                         }
                     }
                 }
+
+
                 if(utils.getDirResults()!=null) {
+                    Log.v("COUNT Direction",""+utils.getDirResults().size());
                     routelist = utils.getDirResults();
                     if (routelist.size() > 0) {
                         PolylineOptions rectLine = new PolylineOptions().width(10).color(

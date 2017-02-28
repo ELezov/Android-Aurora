@@ -18,15 +18,44 @@ public class Utils {
     public static final String BASE_URL = "https://maps.googleapis.com/maps/";
     public List<Result> nearbyPlaces;
     public List<Result> selectPlaces;
+    public List<Result> myTravel;
 
 
     public ArrayList<LatLng> dirResults;
     public ResultDetail resultDetail;
     private static Utils utils;
 
+    public Result toTravel;
+    public Result fromTravel;
+
+    public Result getToTravel() {
+        return toTravel;
+    }
+
+    public void setToTravel(Result toTravel) {
+        this.toTravel = toTravel;
+    }
+
+    public Result getFromTravel() {
+        return fromTravel;
+    }
+
+    public void setFromTravel(Result fromTravel) {
+        this.fromTravel = fromTravel;
+    }
+
+    public List<Result> getMyTravel() {
+        return myTravel;
+    }
+
+    public void setMyTravel(List<Result> myTravel) {
+        this.myTravel = myTravel;
+    }
+
     private Utils(){
         nearbyPlaces=new ArrayList<Result>();
         selectPlaces=new ArrayList<Result>();
+        myTravel=new ArrayList<Result>();
     }
 
     public static Utils getInstance(){
@@ -58,6 +87,11 @@ public class Utils {
 
     public void addToSelectPlaces(Result result){
         selectPlaces.add(result);
+    }
+
+    public void deleteFromSelectPlaces(int position)
+    {
+        selectPlaces.remove(position);
     }
 
     public ResultDetail getResultDetail() {

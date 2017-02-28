@@ -1,5 +1,6 @@
 package com.example.dima.myapplication.ListPlace;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import com.example.dima.myapplication.Direction.DirectionResults;
 import com.example.dima.myapplication.Direction.Route;
 import com.example.dima.myapplication.Direction.RouteDecode;
 import com.example.dima.myapplication.Direction.Steps;
+import com.example.dima.myapplication.MakeTravelActivity;
 import com.example.dima.myapplication.MapsActivity;
 import com.example.dima.myapplication.Place.PlaceAPI;
 import com.example.dima.myapplication.Place.Places;
@@ -63,9 +65,16 @@ public class ListPlacesActivity extends AppCompatActivity {
    @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
-       setContentView(R.layout.drawer_layout_places);
-
+       setContentView(R.layout.activity_list_places);
        utils=Utils.getInstance();
+       List<Result> nullList=new ArrayList<Result>();
+       utils.setNearbyPlaces(nullList);
+       utils.setSelectPlaces(nullList);
+       utils.setMyTravel(nullList);
+
+
+
+
        progressDialog = new ProgressDialog(this);
        progressDialog.setTitle("Please wait!");
        progressDialog.setMessage("Loading...");
@@ -85,6 +94,7 @@ public class ListPlacesActivity extends AppCompatActivity {
        } else {
            Log.e("DB", "PERMISSION GRANTED");
        }
+
        loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
        if (loc==null)
            loc=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -136,6 +146,14 @@ public class ListPlacesActivity extends AppCompatActivity {
            }
        });
 
+       fab.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent=new Intent(getApplicationContext(), MakeTravelActivity.class);
+               startActivity(intent);
+           }
+       });
+
 
 
    }
@@ -159,8 +177,12 @@ public class ListPlacesActivity extends AppCompatActivity {
             public void onResponse(Call<Places> call, Response<Places> response) {
                 utils.setNearbyPlaces(response.body().getResults());
 
-
-                build_retrofit_and_get_duration_in_response();
+                if (viewPager != null) {
+                    setupViewPager(viewPager);
+                }
+                tabLayout.setupWithViewPager(viewPager);
+                progressDialog.dismiss();
+                //build_retrofit_and_get_duration_in_response();
             }
 
             @Override
@@ -174,7 +196,7 @@ public class ListPlacesActivity extends AppCompatActivity {
 
 
 
-    private void build_retrofit_and_get_duration_in_response() {
+   /* private void build_retrofit_and_get_duration_in_response() {
 
         String url = "https://maps.googleapis.com/maps/";
 
@@ -196,7 +218,7 @@ public class ListPlacesActivity extends AppCompatActivity {
             waypoint = "optimize:true|";
             int max = 0;
             if (size > 10) {
-                size = 10;
+                size = 3;
             }
             for (int i = 2; i < size; i++) {
                 if (i == size - 1) {
@@ -217,6 +239,7 @@ public class ListPlacesActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<DirectionResults> call, Response<DirectionResults> response) {
+                Log.v("URLLLL",call.request().toString());
                 DirectionResults directionResults = response.body();
                 progressDialog.dismiss();
                 ArrayList<LatLng> routelist = new ArrayList<LatLng>();
@@ -257,7 +280,7 @@ public class ListPlacesActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
 
     // это менюшка
