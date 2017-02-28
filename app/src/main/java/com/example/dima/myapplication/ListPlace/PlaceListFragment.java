@@ -45,7 +45,7 @@ public class PlaceListFragment extends Fragment {
 
     Utils utils;
     RecyclerView rv;
-    RecyclerViewNearbyPlacesAdapter MyAdapter;
+    public static RecyclerViewNearbyPlacesAdapter MyAdapter;
 
 
     @Nullable
@@ -59,8 +59,8 @@ public class PlaceListFragment extends Fragment {
 
         utils = Utils.getInstance();
 
-        RecyclerViewNearbyPlacesAdapter adapter = new RecyclerViewNearbyPlacesAdapter(getActivity());
-        MyAdapter = new RecyclerViewNearbyPlacesAdapter(getActivity());
+        RecyclerViewNearbyPlacesAdapter adapter = new RecyclerViewNearbyPlacesAdapter();
+        MyAdapter = new RecyclerViewNearbyPlacesAdapter();
         List<Result> arr=new ArrayList<Result>();
         arr=utils.getNearbyPlaces();
         MyAdapter.add(arr);

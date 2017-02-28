@@ -21,4 +21,6 @@
     <string name="menu_night_mode_day">Day (always)</string>
     <string name="menu_night_mode_night">Night (always)</string>
     <string name="menu_night_mode_auto">Auto</string>
+    <string name="title_activity_make_travel">MakeTravelActivity</string>
+    <string name="title_activity_make_travel_next">MakeTravelNextActivity</string>
 </resources>
