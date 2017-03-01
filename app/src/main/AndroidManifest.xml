@@ -11,6 +11,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".MyApplication"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -30,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ListPlace.ListPlacesActivity"
             android:parentActivityName=".MainActivity"
