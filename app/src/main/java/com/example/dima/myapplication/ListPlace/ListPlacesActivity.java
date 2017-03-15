@@ -67,10 +67,7 @@ public class ListPlacesActivity extends AppCompatActivity {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_list_places);
        utils=Utils.getInstance();
-       List<Result> nullList=new ArrayList<Result>();
-       utils.setNearbyPlaces(nullList);
-       utils.setSelectPlaces(nullList);
-       utils.setMyTravel(nullList);
+     
 
 
 

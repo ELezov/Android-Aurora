@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.dima.myapplication.ListPlace.PlaceDetailActivity;
@@ -68,12 +69,12 @@ public class RecyclerViewTravelNextAdapter extends RecyclerView.Adapter<Recycler
     public class ViewHolder extends RecyclerView.ViewHolder{
         public final View v;
         TextView placeNameText;
-        Button deleteBtn;
+        ImageButton deleteBtn;
         public ViewHolder(View itemView) {
             super(itemView);
             v=itemView;
             placeNameText=(TextView)v.findViewById(R.id.select_place_name);
-            deleteBtn=(Button)v.findViewById(R.id.deleteButton);
+            deleteBtn=(ImageButton)v.findViewById(R.id.deleteButton);
         }
     }
 

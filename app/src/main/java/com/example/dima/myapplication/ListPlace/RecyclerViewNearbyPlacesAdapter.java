@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,14 +36,14 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public Button addButton;
+        public ImageButton addButton;
         public final TextView mTextView;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mTextView = (TextView) view.findViewById(android.R.id.text1);
-            addButton=(Button)view.findViewById(R.id.addButton);
+            addButton=(ImageButton)view.findViewById(R.id.addButton);
         }
 
         @Override

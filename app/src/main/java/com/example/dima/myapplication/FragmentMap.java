@@ -38,7 +38,6 @@ public class FragmentMap extends Fragment {
     Utils utils;
     ArrayList<LatLng> routelist;
 
-    MarkerOptions markerOptions;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +100,7 @@ public class FragmentMap extends Fragment {
 
                     for (int i=0;i<count;i++)
                     {
-                        if (i<2) {
+                        if (i==0) {
                             googleMap.addMarker(new MarkerOptions()
                                     .title(myTravelPlaces.get(i).getName()
                                     )
@@ -110,6 +109,18 @@ public class FragmentMap extends Fragment {
                                                     myTravelPlaces.get(i).getGeometry().getLocation().getLng()))
                                     .snippet(myTravelPlaces.get(i).getVicinity())
                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                            );
+                        }
+                        else
+                        if (i==1) {
+                            googleMap.addMarker(new MarkerOptions()
+                                    .title(myTravelPlaces.get(i).getName()
+                                    )
+                                    .position(
+                                            new LatLng(myTravelPlaces.get(i).getGeometry().getLocation().getLat(),
+                                                    myTravelPlaces.get(i).getGeometry().getLocation().getLng()))
+                                    .snippet(myTravelPlaces.get(i).getVicinity())
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                             );
                         }
                         else {

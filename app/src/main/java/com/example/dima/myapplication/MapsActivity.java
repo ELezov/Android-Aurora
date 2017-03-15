@@ -1,6 +1,7 @@
 package com.example.dima.myapplication;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,16 +11,36 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.dima.myapplication.ListPlace.ListPlacesActivity;
+import com.example.dima.myapplication.Place.Result;
+import com.google.android.gms.maps.model.LatLng;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiPhoto;
+import com.vk.sdk.api.model.VKApiUser;
+import com.vk.sdk.api.model.VKList;
+import com.vk.sdk.api.model.VKPhotoArray;
+import com.vk.sdk.api.photo.VKImageParameters;
+import com.vk.sdk.api.photo.VKUploadImage;
+import com.vk.sdk.dialogs.VKShareDialog;
+import com.vk.sdk.dialogs.VKShareDialogBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-
+    Utils utils=Utils.getInstance();
     final String TAG = "myLogs";
 
     @Override
@@ -29,6 +50,21 @@ public class MapsActivity extends AppCompatActivity
 
         Fragment fragment = null;
         Class fragmentClass = null;
+
+
+
+        //Get user info
+        VKApi.users().get().executeWithListener(new VKRequest.VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                VKApiUser user = ((VKList<VKApiUser>)response.parsedModel).get(0);
+                Log.d("User name", user.first_name + " " + user.last_name);
+            }
+        });
+
+        shareWithDialog(getSupportFragmentManager());
+
+
 
         fragmentClass = FragmentMap.class;
         try {
@@ -109,13 +145,22 @@ public class MapsActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_camera) {
+            List<Result> nullList=new ArrayList<Result>();
+            ArrayList<LatLng> nullDirections=new ArrayList<LatLng>();
+            utils.setNearbyPlaces(nullList);
+            utils.setSelectPlaces(nullList);
+            utils.setMyTravel(nullList);
+            utils.setDirResults(nullDirections);
             Intent intent = new Intent(this, ListPlacesActivity.class);
             startActivity(intent);
             //fragmentClass = FirstFragment.class;
         } else if (id == R.id.nav_gallery) {
             //fragmentClass = SecondFragment.class;
         } else if (id == R.id.nav_slideshow) {
-
+            VKSdk.logout();
+            Toast.makeText(getApplicationContext(),""+VKSdk.isLoggedIn(),Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -144,6 +189,32 @@ public class MapsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+    void shareWithDialog(FragmentManager fragmentManager) {
+
+        VKShareDialogBuilder builder = new VKShareDialogBuilder();
+        builder.setText("I created this post with VK Android SDK" +
+                "\nSee additional information below\n#vksdk");
+        builder.setAttachmentLink("VK Android SDK information",
+                "https://vk.com/dev/android_sdk");
+        builder.setShareDialogListener(new VKShareDialog.VKShareDialogListener() {
+            @Override
+            public void onVkShareComplete(int postId) {
+                // recycle bitmap if need
+            }
+            @Override
+            public void onVkShareCancel() {
+                // recycle bitmap if need
+            }
+            @Override
+            public void onVkShareError(VKError error) {
+                // recycle bitmap if need
+            }
+        });
+        builder.show(fragmentManager, "VK_SHARE_DIALOG");
     }
 
 

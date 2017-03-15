@@ -34,12 +34,12 @@
 
         <activity
             android:name=".ListPlace.ListPlacesActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".MapsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ListPlace.PlaceDetailActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".ListPlace.ListPlacesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
