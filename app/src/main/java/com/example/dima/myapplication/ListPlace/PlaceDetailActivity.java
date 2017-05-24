@@ -1,8 +1,12 @@
 package com.example.dima.myapplication.ListPlace;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 //import com.bumptech.glide.Glide;
@@ -22,6 +28,15 @@ import com.example.dima.myapplication.Details.ResultDetail;
 import com.example.dima.myapplication.Details.Review;
 import com.example.dima.myapplication.R;
 import com.example.dima.myapplication.Utils;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +56,60 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
     TextView placeName;
     TextView placeAddr;
-    TextView placeLtng;
+    //TextView placeLtng;
+    TextView phoneText;
+    TextView siteText;
+    TextView openText;
+    LinearLayout linearLayoutOpenHours;
+
+    MapView mapView;
+
 
     RecyclerView listReview;
     ReviewRecyclerAdapter myAdapter;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +120,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
         final String Name = intent.getStringExtra(PlACE_NAME);
         String placeID = intent.getStringExtra(ID_PLACE);
 
+        mapView = (MapView) findViewById(R.id.map_detail);
+        mapView.onCreate(savedInstanceState);
+
+
+
         myAdapter=new ReviewRecyclerAdapter();
         //myAdapter.notifyDataSetChanged();
 
@@ -62,7 +132,12 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         placeName = (TextView) findViewById(R.id.place_name);
         placeAddr = (TextView) findViewById(R.id.place_addr);
-        placeLtng = (TextView) findViewById(R.id.place_ltng);
+        //placeLtng = (TextView) findViewById(R.id.place_ltng);
+        phoneText = (TextView) findViewById(R.id.phone_number);
+        siteText=(TextView)findViewById(R.id.site);
+        openText=(TextView) findViewById(R.id.opening_hours);
+        linearLayoutOpenHours=(LinearLayout) findViewById(R.id.linearLayout_openHours);
+
 
         listReview = (RecyclerView) findViewById(R.id.list_review);
         listReview.setLayoutManager(new LinearLayoutManager(listReview.getContext()));
@@ -83,36 +158,92 @@ public class PlaceDetailActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResultDetail>() {
 
             @Override
-            public void onResponse(Call<ResultDetail> call, Response<ResultDetail> response) {
+            public void onResponse(Call<ResultDetail> call, final Response<ResultDetail> response) {
                 Log.v("URL", call.request().url().toString());
                 if (response.isSuccessful()) {
-                    Result place = response.body().getResult();
+                    final Result place = response.body().getResult();
                     placeName.setText(place.getName());
                     placeAddr.setText(place.getAddressComponents().get(1).getShortName() + ","
                             + place.getAddressComponents().get(0).getShortName() + "\n" +
                             place.getAddressComponents().get(2).getShortName());
-                    placeLtng.setText(place.getGeometry().getLocation().getLat().toString() + ","
-                            + place.getGeometry().getLocation().getLng().toString());
+                   // placeLtng.setText(place.getGeometry().getLocation().getLat().toString() + ","
+                           // + place.getGeometry().getLocation().getLng().toString());
 
-                    Log.v("AAAA",""+place.getReviews().size());
-                    myAdapter.add(place.getReviews());
-                    //myAdapter.notifyDataSetChanged();
-                    listReview.setAdapter(myAdapter);
-                    Log.v("OHHHHHHH",""+listReview.getAdapter().getItemCount());
+                    try {
+                        Log.v("ReviewSize",""+place.getReviews().size());
+                        myAdapter.add(place.getReviews());
+                        listReview.setAdapter(myAdapter);
+                        Log.v("ReviewCount",""+listReview.getAdapter().getItemCount());
+                    }
+                    catch (Exception e){
+                        Log.v("Review",e.getMessage().toString());
+                    }
+
                     try {
                         Log.v("Phone", response.body().getResult().getInternationalPhoneNumber().toString());
+                        phoneText.setVisibility(View.VISIBLE);
+                        phoneText.setText("Тел: "+response.body().getResult().getInternationalPhoneNumber().toString());
                     }catch (Exception e){
-                        Log.v("PhoneFail","It's shit");
+                        Log.v("Phone","fail");
                     }
+                    try{
+                        String openHours="";
+                        int k=response.body().getResult().getOpeningHours().getWeekdayText().size();
+                        List<String> list=response.body().getResult().getOpeningHours().getWeekdayText();
+                        for (int i=0;i<k;i++)
+                            openHours+=list.get(i)+"\n";
+                        openText.setText(openHours);
+                    }catch (Exception e){
+                        Log.v("OpenHours",e.getMessage().toString());
+                        linearLayoutOpenHours.setVisibility(View.INVISIBLE);
+                    }
+
+
                     Log.v("Address", response.body().getResult().getAddressComponents().get(2).getLongName());
                     Log.v("Address", response.body().getResult().getFormattedAddress());
                     try{
-                        if (response.body().getResult().getWebsite()==null)
-                            Log.v("AAAA","FAIL1");
                         Log.v("Site", response.body().getResult().getWebsite());
+                        siteText.setVisibility(View.VISIBLE);
+                        siteText.setText(response.body().getResult().getWebsite());
+                        siteText.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(response.body().getResult().getWebsite()));
+                                startActivity(browserIntent);
+                            }
+                        });
                     } catch (Exception e){
-                        Log.v("AAAA","It's fail");
+                        Log.v("Site","fail");
                     }
+
+
+
+                    mapView.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap map) {
+
+                            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                            map.getUiSettings().setZoomControlsEnabled(true);
+                            map.getUiSettings().setZoomGesturesEnabled(true);
+                            map.setBuildingsEnabled(true);
+                            map.getUiSettings().setScrollGesturesEnabled(true);
+
+                            LatLng placeDet = new LatLng(place.getGeometry().getLocation().getLat(),
+                                    place.getGeometry().getLocation().getLng());
+
+                            map.addMarker(new MarkerOptions()
+                                    .title(place.getName()
+                                    )
+                                    .position(
+                                            placeDet)
+                                    .snippet(place.getVicinity())
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                            );
+
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(placeDet, 10);
+                            map.animateCamera(cameraUpdate);
+                        }
+                    });
 
 
                 }
@@ -138,13 +269,16 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        this.onBackPressed();
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public class ReviewRecyclerAdapter extends RecyclerView.Adapter<ReviewRecyclerAdapter.ViewHolder> {
         List<Review> data=new ArrayList<Review>();
-
-        ReviewRecyclerAdapter() {
-
-        }
+        ReviewRecyclerAdapter() {}
 
         public void add(List<Review> items){
             this.data=items;

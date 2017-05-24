@@ -3,6 +3,7 @@ package com.example.dima.myapplication;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,12 +19,20 @@ import android.widget.Toast;
 
 import com.example.dima.myapplication.ListPlace.ListPlacesActivity;
 import com.example.dima.myapplication.Place.Result;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiCommunity;
 import com.vk.sdk.api.model.VKApiPhoto;
 import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKList;
@@ -42,6 +51,7 @@ public class MapsActivity extends AppCompatActivity
 
     Utils utils=Utils.getInstance();
     final String TAG = "myLogs";
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +61,7 @@ public class MapsActivity extends AppCompatActivity
         Fragment fragment = null;
         Class fragmentClass = null;
 
-
+/*
 
         //Get user info
         VKApi.users().get().executeWithListener(new VKRequest.VKRequestListener() {
@@ -61,8 +71,9 @@ public class MapsActivity extends AppCompatActivity
                 Log.d("User name", user.first_name + " " + user.last_name);
             }
         });
+        */
 
-        shareWithDialog(getSupportFragmentManager());
+      //  shareWithDialog(getSupportFragmentManager());
 
 
 
@@ -95,6 +106,22 @@ public class MapsActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+                    }
+                    // methods go here
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
 
 
     }
@@ -157,15 +184,26 @@ public class MapsActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             //fragmentClass = SecondFragment.class;
         } else if (id == R.id.nav_slideshow) {
-            VKSdk.logout();
-            Toast.makeText(getApplicationContext(),""+VKSdk.isLoggedIn(),Toast.LENGTH_LONG).show();
-            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(intent);
+
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+
+                        }
+                    });
+            //fb
+             LoginManager.getInstance().logOut();
+            //vk
+            VKSdk.logout();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
 
         }
 

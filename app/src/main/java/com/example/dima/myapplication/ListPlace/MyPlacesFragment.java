@@ -22,7 +22,7 @@ import com.example.dima.myapplication.Utils;
 import java.util.List;
 
 
-public class PlaceListFragment2 extends Fragment {
+public class MyPlacesFragment extends Fragment {
 
     LocationManager locationManager;
     RecyclerView rv;

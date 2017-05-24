@@ -11,6 +11,8 @@
 
     <string name="checkin">Checkin</string>
 
+    <string name="facebook_app_id">284669708613225</string>
+
     <string name="menu_night_mode">Night mode</string>
     <string name="menu_night_mode_system">Follow system</string>
     <string name="menu_night_mode_day">Day (always)</string>

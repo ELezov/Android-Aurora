@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -52,6 +54,10 @@ public class MakeTravelActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
+
         nextBtn=(Button)findViewById(R.id.nextBtn);
 
         final Spinner spinnerFrom = (Spinner) findViewById(R.id.spinnerTravelFrom);
@@ -87,17 +93,29 @@ public class MakeTravelActivity extends AppCompatActivity {
         spinnerAdapterTo.notifyDataSetChanged();
         spinnerFrom.setAdapter(spinnerAdapterFrom);
         spinnerTo.setAdapter(spinnerAdapterTo);
+        spinnerFrom.setSelection(-1);
+        spinnerTo.setSelection(-1);
         spinnerFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (spinnerAdapterFrom.getFlag()==true){
+
+
+                fromResult=spinnerAdapterFrom.getItem(position);
+                if (spinnerAdapterFrom.getFlag().equals(true))
+                {
+                    Toast.makeText(getApplicationContext(),"Концом маршрута выбрано " + toResult.getName(),Toast.LENGTH_SHORT).show();
+                }
+                spinnerAdapterFrom.start();
+
+                /*if (spinnerAdapterFrom.getFlag()==true){
+                    Log.v("Place",spinnerAdapterFrom.getItem(position).getName());
                     fromResult= spinnerAdapterFrom.getItem(position);
                     Toast.makeText(getApplicationContext(),"Началом маршрута выбрано " + fromResult.getName(),Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     spinnerAdapterFrom.start();
-                }
+                }*/
             }
 
             @Override
@@ -109,13 +127,23 @@ public class MakeTravelActivity extends AppCompatActivity {
         spinnerTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (spinnerAdapterTo.getFlag()==true){
+                //spinnerAdapterTo.start();
+                toResult=spinnerAdapterTo.getItem(position);
+                if (spinnerAdapterTo.getFlag().equals(true))
+                {
+                    Toast.makeText(getApplicationContext(),"Концом маршрута выбрано " + toResult.getName(),Toast.LENGTH_SHORT).show();
+                }
+                spinnerAdapterTo.start();
+
+
+
+                /*if (spinnerAdapterTo.getFlag()==true){
                     toResult=spinnerAdapterTo.getItem(position);
                     Toast.makeText(getApplicationContext(),"Концом маршрута выбрано " + toResult.getName(),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     spinnerAdapterTo.start();
-                }
+                }*/
             }
 
             @Override
@@ -124,27 +152,26 @@ public class MakeTravelActivity extends AppCompatActivity {
             }
         });
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),MakeTravelNextActivity.class);
-                utils.setToTravel(toResult);
-                utils.setFromTravel(fromResult);
-                intent.putExtra(fromTravel,fromResult.getPlaceId());
-                Log.v("LOG",fromResult.getPlaceId());
-                intent.putExtra(toTravel,toResult.getPlaceId());
-                Log.v("LOG",toResult.getPlaceId());
-                startActivity(intent);
+                if ((fromResult!=null)&&(toResult!=null))
+                {
+                    Intent intent=new Intent(getApplicationContext(),MakeTravelNextActivity.class);
+                    utils.setToTravel(toResult);
+                    utils.setFromTravel(fromResult);
+                    intent.putExtra(fromTravel,fromResult.getPlaceId());
+                    Log.v("LOG",fromResult.getPlaceId());
+                    intent.putExtra(toTravel,toResult.getPlaceId());
+                    Log.v("LOG",toResult.getPlaceId());
+                    startActivity(intent);
+                }
+                else
+                {
+                    Snackbar.make(v, "Выберите точки отправки и прибытия", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
             }
         });
     }
@@ -181,6 +208,12 @@ public class MakeTravelActivity extends AppCompatActivity {
         {
             Toast.makeText(this,"Включите GPS",Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        this.onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -4,23 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dima.myapplication.Place.Result;
 import com.example.dima.myapplication.R;
 import com.example.dima.myapplication.Utils;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 
@@ -81,15 +75,15 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
             public void onClick(View v) {
                 utils.addToSelectPlaces(data.get(position));
                 Log.v("Select count",""+utils.getSelectPlaces().size());
-                PlaceListFragment2.MyAdapter.add(utils.getSelectPlaces());
-                PlaceListFragment2.MyAdapter.notifyDataSetChanged();
+                MyPlacesFragment.MyAdapter.add(utils.getSelectPlaces());
+                MyPlacesFragment.MyAdapter.notifyDataSetChanged();
 
                 List<Result> nerbP=utils.getNearbyPlaces();
                 nerbP.remove(position);
                 utils.setNearbyPlaces(nerbP);
                 Log.v("Nearby count",""+utils.getNearbyPlaces().size());
-                PlaceListFragment.MyAdapter.add(utils.getNearbyPlaces());
-                PlaceListFragment.MyAdapter.notifyDataSetChanged();
+                NearbyPlacesFragment.MyAdapter.add(utils.getNearbyPlaces());
+                NearbyPlacesFragment.MyAdapter.notifyDataSetChanged();
 
 
             }

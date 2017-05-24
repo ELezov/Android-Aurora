@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.LoginFilter;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -78,12 +80,12 @@ public class MakeTravelNextActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
+
         rv = (RecyclerView)findViewById(R.id.recyclerview_travel_next);
-
         mLayoutManager=new LinearLayoutManager(this);
-
         rv.setLayoutManager(mLayoutManager);
-
         Log.v("LOG",""+data.size());
         MyAdapter = new RecyclerViewTravelNextAdapter();
         MyAdapter.add(data);
@@ -197,6 +199,13 @@ public class MakeTravelNextActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        this.onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 
 }

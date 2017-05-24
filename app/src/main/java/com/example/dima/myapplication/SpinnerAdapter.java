@@ -56,16 +56,16 @@ public class SpinnerAdapter extends ArrayAdapter<Result> {
         TextView label=(TextView) super.getView(position,convertView,parent);
         label.setTextSize(17);
 
-        if (flag!=false)
-        {
+        //if (flag!=false)
+        //{
             label.setText(data.get(position).getName());
             label.setTextColor(Color.BLACK);
-        }
-        else
-        {
-            label.setText("Выберите точку");
-            label.setTextColor(Color.BLACK);
-        }
+       // }
+        //else
+        //{
+            //label.setText("Выберите точку");
+           // label.setTextColor(Color.BLACK);
+        //}
 
         //return super.getView(position, convertView, parent);
         return label;

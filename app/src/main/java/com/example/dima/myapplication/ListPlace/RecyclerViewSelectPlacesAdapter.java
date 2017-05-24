@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -54,15 +53,15 @@ public class RecyclerViewSelectPlacesAdapter extends RecyclerView.Adapter<Recycl
             public void onClick(View v) {
                 utils.addToNearbyPlaces(data.get(position));
                 Log.v("Nearby count",""+utils.getNearbyPlaces().size());
-                PlaceListFragment.MyAdapter.add(utils.getNearbyPlaces());
-                PlaceListFragment.MyAdapter.notifyDataSetChanged();
+                NearbyPlacesFragment.MyAdapter.add(utils.getNearbyPlaces());
+                NearbyPlacesFragment.MyAdapter.notifyDataSetChanged();
 
                 List<Result> selectP=utils.getSelectPlaces();
                 selectP.remove(position);
                 utils.setSelectPlaces(selectP);
                 Log.v("Select count",""+utils.getSelectPlaces().size());
-                PlaceListFragment2.MyAdapter.add(utils.getSelectPlaces());
-                PlaceListFragment2.MyAdapter.notifyDataSetChanged();
+                MyPlacesFragment.MyAdapter.add(utils.getSelectPlaces());
+                MyPlacesFragment.MyAdapter.notifyDataSetChanged();
 
             }
         });

@@ -82,7 +82,6 @@ public class FragmentMap extends Fragment {
                 // googleMap.getUiSettings().setIndoorLevelPickerEnabled(true);
                 //отключение быстрого доступа к оригиналу Google Maps
                 googleMap.getUiSettings().setMapToolbarEnabled(false);
-                googleMap.setMyLocationEnabled(true);
                 //Настройка параметров zoom
                 googleMap.getUiSettings().setZoomControlsEnabled(true);
                 googleMap.getUiSettings().setZoomGesturesEnabled(true);

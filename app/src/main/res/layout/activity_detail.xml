@@ -58,6 +58,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -70,26 +72,80 @@
             android:paddingTop="24dp">
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/place_name"
-                        android:textSize="30sp"
-                        android:gravity="center"/>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/place_addr"
-                        android:textSize="20sp"
-                        android:gravity="center"/>
+                        android:orientation="vertical">
 
-                    <TextView
+
+                        <com.google.android.gms.maps.MapView
+                            android:id="@+id/map_detail"
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/place_ltng"
-                        android:textSize="10sp"
-                        android:gravity="center"/>
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/place_name"
+                            android:textSize="30sp"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/place_addr"
+                            android:textSize="20sp"
+                            android:gravity="center"/>
+                        <LinearLayout
+                            android:id="@+id/linearLayout_openHours"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textSize="18sp"
+                                android:text="Расписание"/>
+
+                            <TextView
+                                android:textSize="15sp"
+                                android:gravity="center"
+                                android:id="@+id/opening_hours"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/phone_number"
+                            android:layout_gravity="center"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"/>
+                        <TextView
+                            android:id="@+id/site"
+                            android:layout_width="match_parent"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:textColor="@color/vk_share_blue_color"
+                            android:layout_gravity="center"
+                            android:layout_height="wrap_content"
+                            android:visibility="invisible"/>
+
+                    </LinearLayout>
+
 
 
                 <android.support.v7.widget.RecyclerView
@@ -99,7 +155,11 @@
                     android:scrollbars="vertical"
                     android:background="#E8EAF6">
 
+
+
                 </android.support.v7.widget.RecyclerView>
+
+
 
 
 
@@ -107,6 +167,9 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+
+
 
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:layout_height="wrap_content"-->

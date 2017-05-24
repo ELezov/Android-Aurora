@@ -16,6 +16,7 @@ import java.util.List;
 public class Utils {
     public static final String GOOGLE_API_KEY = "AIzaSyDnwLF2-WfK8cVZt9OoDYJ9Y8kspXhEHfI";
     public static final String BASE_URL = "https://maps.googleapis.com/maps/";
+    public static final String AURORA_URL = "http://auroraproject.azurewebsites.net/";
     public List<Result> nearbyPlaces;
     public List<Result> selectPlaces;
     public List<Result> myTravel;
@@ -115,7 +116,10 @@ public class Utils {
         return  GOOGLE_API_KEY;
     }
 
+
     public String getGetPlaceUrl(){
         return  BASE_URL;
     }
+
+    public String getAuroraUrl(){ return  AURORA_URL; }
 }

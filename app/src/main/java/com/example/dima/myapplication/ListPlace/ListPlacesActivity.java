@@ -1,6 +1,5 @@
 package com.example.dima.myapplication.ListPlace;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,23 +21,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.dima.myapplication.Direction.DirectionAPI;
-import com.example.dima.myapplication.Direction.DirectionResults;
-import com.example.dima.myapplication.Direction.Route;
-import com.example.dima.myapplication.Direction.RouteDecode;
-import com.example.dima.myapplication.Direction.Steps;
 import com.example.dima.myapplication.MakeTravelActivity;
 import com.example.dima.myapplication.MapsActivity;
 import com.example.dima.myapplication.Place.PlaceAPI;
 import com.example.dima.myapplication.Place.Places;
-import com.example.dima.myapplication.Place.Result;
 import com.example.dima.myapplication.R;
 import com.example.dima.myapplication.Utils;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,10 +60,6 @@ public class ListPlacesActivity extends AppCompatActivity {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_list_places);
        utils=Utils.getInstance();
-     
-
-
-
 
        progressDialog = new ProgressDialog(this);
        progressDialog.setTitle("Please wait!");
@@ -120,7 +109,6 @@ public class ListPlacesActivity extends AppCompatActivity {
        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
        setSupportActionBar(toolbar);
        final ActionBar ab = getSupportActionBar();
-       //ab.setHomeAsUpIndicator(R.drawable.ic_menu);
        ab.setDisplayHomeAsUpEnabled(true);
 
        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -132,27 +120,6 @@ public class ListPlacesActivity extends AppCompatActivity {
 
        viewPager = (ViewPager) findViewById(R.id.viewpager);
        tabLayout = (TabLayout) findViewById(R.id.tabs);
-
-
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-       fab.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                       .setAction("Action", null).show();
-           }
-       });
-
-       fab.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent intent=new Intent(getApplicationContext(), MakeTravelActivity.class);
-               startActivity(intent);
-           }
-       });
-
-
-
    }
 
 
@@ -193,146 +160,37 @@ public class ListPlacesActivity extends AppCompatActivity {
 
 
 
-   /* private void build_retrofit_and_get_duration_in_response() {
-
-        String url = "https://maps.googleapis.com/maps/";
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        DirectionAPI service = retrofit.create(DirectionAPI.class);
-
-        int size = utils.getNearbyPlaces().size();
-        Double lat1 = utils.getNearbyPlaces().get(0).getGeometry().getLocation().getLat();
-        Double lon1 = utils.getNearbyPlaces().get(0).getGeometry().getLocation().getLng();
-
-        Double lat2 = utils.getNearbyPlaces().get(1).getGeometry().getLocation().getLat();
-        Double lon2 = utils.getNearbyPlaces().get(1).getGeometry().getLocation().getLng();
-        String waypoint = "";
-        if (utils.getNearbyPlaces().size() > 2) {
-            waypoint = "optimize:true|";
-            int max = 0;
-            if (size > 10) {
-                size = 3;
-            }
-            for (int i = 2; i < size; i++) {
-                if (i == size - 1) {
-                    waypoint += utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLat().toString() +
-                            "," + utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLng().toString();
-                } else {
-                    waypoint += utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLat().toString() +
-                            "," + utils.getNearbyPlaces().get(i).getGeometry().getLocation().getLng().toString() + "|";
-                }
-
-
-            }
-        }
-
-        Call<DirectionResults> call = service.getJson(lat1.toString() + "," + lon1.toString(), lat2.toString() + "," + lon2.toString(), waypoint);
-
-        call.enqueue(new Callback<DirectionResults>() {
-
-            @Override
-            public void onResponse(Call<DirectionResults> call, Response<DirectionResults> response) {
-                Log.v("URLLLL",call.request().toString());
-                DirectionResults directionResults = response.body();
-                progressDialog.dismiss();
-                ArrayList<LatLng> routelist = new ArrayList<LatLng>();
-                if (directionResults.getRoutes().size() > 0) {
-                    ArrayList<LatLng> decodelist;
-                    Route routeA = directionResults.getRoutes().get(0);
-                    if (routeA.getLegs().size() > 0) {
-                        for (int k = 0; k < routeA.getLegs().size(); k++) {
-                            List<Steps> steps = routeA.getLegs().get(k).getSteps();
-                            Steps step;
-                            com.example.dima.myapplication.Direction.Location location;
-                            String polyline;
-                            for (int i = 0; i < steps.size(); i++) {
-                                step = steps.get(i);
-                                location = step.getStart_location();
-                                //Log.v("1111", step.getStart_location().getLat() + "," + step.getStart_location().getLng());
-                                routelist.add(new LatLng(location.getLat(), location.getLng()));
-                                polyline = step.getPolyline().getPoints();
-                                decodelist = RouteDecode.decodePoly(polyline);
-                                routelist.addAll(decodelist);
-                                location = step.getEnd_location();
-                                //Log.v("2222", step.getEnd_location().getLat() + "," + step.getEnd_location().getLng());
-                                routelist.add(new LatLng(location.getLat(), location.getLng()));
-                            }
-                        }
-                    }
-                }
-                utils.setDirResults(routelist);
-                if (viewPager != null) {
-                    setupViewPager(viewPager);
-                }
-                tabLayout.setupWithViewPager(viewPager);
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<DirectionResults> call, Throwable t) {
-
-            }
-        });
-    }*/
-
 
     // это менюшка
-/*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.menu_listplace, menu);
+        //delete= menu!!.findItem(R.id.action_delete)
         return true;
     }
-*/
 
-    /*
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        switch (AppCompatDelegate.getDefaultNightMode()) {
-            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
-                menu.findItem(R.id.menu_night_mode_system).setChecked(true);
-                break;
-            case AppCompatDelegate.MODE_NIGHT_AUTO:
-                menu.findItem(R.id.menu_night_mode_auto).setChecked(true);
-                break;
-            case AppCompatDelegate.MODE_NIGHT_YES:
-                menu.findItem(R.id.menu_night_mode_night).setChecked(true);
-                break;
-            case AppCompatDelegate.MODE_NIGHT_NO:
-                menu.findItem(R.id.menu_night_mode_day).setChecked(true);
-                break;
-        }
-        return true;
-    }
-*/
 
-    /*
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.menu_night_mode_system:
-                setNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
-            case R.id.menu_night_mode_day:
-                setNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            case R.id.menu_night_mode_night:
-                setNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            case R.id.menu_night_mode_auto:
-                setNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                break;
-        }
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        if (item.getItemId()==R.id.action_make_travel) {
+            if (utils.getSelectPlaces().size()>1)
+            {
+                Intent intent=new Intent(getApplicationContext(), MakeTravelActivity.class);
+                startActivity(intent);
+            }
+            else Toast.makeText(getApplicationContext(),"Вы не выбрали достопримечательности",Toast.LENGTH_LONG).show();
+
+        }else onBackPressed();
+
+
         return super.onOptionsItemSelected(item);
     }
-*/
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -342,8 +200,8 @@ public class ListPlacesActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new PlaceListFragment(), "Nearby Places");
-        adapter.addFragment(new PlaceListFragment2(), "My Places");
+        adapter.addFragment(new NearbyPlacesFragment(), "Nearby Places");
+        adapter.addFragment(new MyPlacesFragment(), "My Places");
         viewPager.setAdapter(adapter);
     }
 
