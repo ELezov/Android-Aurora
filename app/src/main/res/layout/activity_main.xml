@@ -9,58 +9,75 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@mipmap/back"
+    android:weightSum="1">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/logo"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="center"
         android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="260dp"
         android:layout_above="@+id/editText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_login"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@mipmap/aurora_logo" />
+
+
+    <Button
+        android:id="@+id/google_login"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="5dp"
-        android:text="GOOGLE"
+        android:background="@mipmap/google_btn"
         />
 
 
     <Button
         android:id="@+id/vk_login"
-        android:layout_width="192dp"
-        android:layout_height="45dp"
-
+        android:layout_width="220dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:text="VK"
-        android:textColor="@color/vk_white"
-        android:background="@mipmap/vk_button"
+        android:background="@mipmap/vk_btn"
         android:onClick="onClick" />
 
+    <FrameLayout
+        android:id="@+id/FrameLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/fb_login"
-        android:layout_gravity="center"
-        android:layout_width="192dp"
-        android:layout_height="70dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:onClick="onClick" />
+
+        <Button
+            android:id="@+id/fb_btn"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:background="@mipmap/fb_btn" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/fb_login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:alpha="0"
+            android:elevation="8dp"
+            android:onClick="onClick"/>
+
+    </FrameLayout>
 
 
 </LinearLayout>

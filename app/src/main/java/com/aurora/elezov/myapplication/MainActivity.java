@@ -1,5 +1,4 @@
 package com.aurora.elezov.myapplication;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,18 +7,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.aurora.elezov.myapplication.Details.Result;
+import com.aurora.elezov.myapplication.Details.ResultDetail;
 import com.aurora.elezov.myapplication.Social.UserInfoAPI;
 import com.aurora.elezov.myapplication.Social.UserInfoDetail;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -31,10 +36,15 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
+import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.model.VKApiUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements
         View.OnClickListener {
 
     private LoginButton loginButton;
+    private Button fb_btn;
     private CallbackManager callbackManager;
 
     private boolean isResumed = false;
@@ -96,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        SignInButton signInButton = (SignInButton) findViewById(R.id.google_login);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        //Button signInButton = (SignInButton) findViewById(R.id.google_login);
+        //  signInButton.setSize(SignInButton.SIZE_STANDARD);
 
     }
 
@@ -198,9 +209,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void facebook_signIn() {
+
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
+
+
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
@@ -212,6 +226,9 @@ public class MainActivity extends AppCompatActivity implements
                             EMAIL = object.getString("email");
                             Log.v(TAG, object.toString());
                             Log.v(TAG, EMAIL);
+                            String json = EMAIL.toString();
+                            Log.d(TAG, "JSON TO STRING:" + json);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -221,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements
 
                         Toast.makeText(getApplicationContext(), EMAIL, Toast.LENGTH_SHORT).show();
 
-                         build_retrofit();
+                        //build_retrofit();
                     }
 
                 });
@@ -230,6 +247,11 @@ public class MainActivity extends AppCompatActivity implements
                 parameters.putString("fields", "email");
                 request.setParameters(parameters);
                 request.executeAsync();
+                build_retrofit();
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(intent);
+
+
 
 
             }
@@ -286,19 +308,18 @@ public class MainActivity extends AppCompatActivity implements
             switch (v.getId()) {
                 case R.id.google_login:
                     signIn();
-                   // build_retrofit();
+                    build_retrofit();
                     break;
                 case R.id.vk_login:
-                    VKSdk.login(MainActivity.this);
+                    VKSdk.login(MainActivity.this, VKScope.WALL);
+                    build_retrofit();
                     break;
                 case R.id.fb_login:
                     if (AccessToken.getCurrentAccessToken() == null) {
                         facebook_signIn();
-                        Intent intent = new Intent(this, MapsActivity.class);
-                        startActivity(intent);
+
                     }
-                    else { Intent intent = new Intent(this, MapsActivity.class);
-                        startActivity(intent);}
+
                     break;
 
             }
@@ -351,4 +372,5 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 }
+
 
