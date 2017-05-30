@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.dima.myapplication.MakeTravelNextActivity"
+    tools:context="com.aurora.elezov.myapplication.MakeTravelNextActivity"
     tools:showIn="@layout/activity_make_travel_next"
     android:orientation="vertical">
 

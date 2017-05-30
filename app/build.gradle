@@ -12,7 +12,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.example.dima.myapplication"
+        applicationId "com.aurora.elezov.myapplication"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
