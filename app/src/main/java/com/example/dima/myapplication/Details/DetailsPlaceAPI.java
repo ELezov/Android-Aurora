@@ -10,6 +10,6 @@ import retrofit2.http.Query;
  */
 
 public interface DetailsPlaceAPI {
-    @GET("api/place/details/json?language=ru&key=AIzaSyDnwLF2-WfK8cVZt9OoDYJ9Y8kspXhEHfI")
+    @GET("api/place/details/json?language=ru&key=AIzaSyAW-79sqdAygzJ_8cJz68oFne_qtePgJ-E")
     Call<ResultDetail> getPlaceDetails(@Query("placeid") String placeId);
 }

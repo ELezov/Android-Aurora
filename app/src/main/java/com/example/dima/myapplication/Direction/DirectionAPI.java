@@ -11,7 +11,7 @@ import retrofit2.http.Query;
  */
 
 public interface DirectionAPI {
-    @GET("api/directions/json?key=AIzaSyDnwLF2-WfK8cVZt9OoDYJ9Y8kspXhEHfI")
+    @GET("api/directions/json?key=AIzaSyAW-79sqdAygzJ_8cJz68oFne_qtePgJ-E")
     Call<DirectionResults> getJson(@Query("origin") String origin,
                                    @Query("destination") String destination,
                                    @Query("waypoints") String waypoints);

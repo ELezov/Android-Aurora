@@ -19,6 +19,7 @@
         <TextView
             android:id="@+id/select_place_name"
             android:layout_width="250dp"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textAppearance="?attr/textAppearanceListItem"/>

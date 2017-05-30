@@ -9,7 +9,7 @@ import retrofit2.http.Query;
  */
 
 public interface PlaceAPI {
-    @GET("api/place/nearbysearch/json?sensor=true&language=ru&key=AIzaSyDnwLF2-WfK8cVZt9OoDYJ9Y8kspXhEHfI")
+    @GET("api/place/nearbysearch/json?sensor=true&language=ru&key=AIzaSyAW-79sqdAygzJ_8cJz68oFne_qtePgJ-E")
     Call<Places> getNearbyPlaces(@Query("type") String type,
                                   @Query("location") String location,
                                   @Query("radius") int radius);
