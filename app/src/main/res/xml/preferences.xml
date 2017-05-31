@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sample="http://schemas.android.com/apk/res-auto">>
+    <PreferenceCategory
+        android:title="Основное">
+        <ListPreference
+            android:title="Choose type of moving"
+            android:summary="Select type"
+            android:key="listPref"
+            android:defaultValue="-1"
+            android:entries="@array/pref_list_titles_type_moving"
+            android:entryValues="@array/pref_list_values_type_moving" />
+
+        <!--<SeekBarP-->
+            <!--android:defaultValue="22"-->
+            <!--android:max="50"-->
+            <!--android:title="Set the default time"-->
+            <!--android:key="seekBarPref">-->
+        <!--</SeekBarP>-->
+        <com.pavelsikun.seekbarpreference.SeekBarPreference
+            android:key="your_pref_key"
+            android:title="SeekbarPreference 2"
+            android:summary="Some summary"
+            android:enabled="false"
+            android:defaultValue="5000"
+
+            sample:msbp_minValue="100"
+            sample:msbp_maxValue="10000"
+            sample:msbp_interval="200"
+            sample:msbp_measurementUnit="%"
+            sample:msbp_dialogEnabled="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

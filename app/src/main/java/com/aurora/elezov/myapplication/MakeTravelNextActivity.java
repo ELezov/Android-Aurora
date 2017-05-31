@@ -2,7 +2,9 @@ package com.aurora.elezov.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -147,7 +149,19 @@ public class MakeTravelNextActivity extends AppCompatActivity {
         }
         Log.v("WAYPOINT",waypoint);
 
-        Call<DirectionResults> call = service.getJson(lat1.toString() + "," + lon1.toString(), lat2.toString() + "," + lon2.toString(), waypoint);
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        String ListPreference = prefs.getString("listPref", "-1");
+        String modeValue="driving";
+        switch (ListPreference){
+            case "-1":
+                modeValue="driving";
+                break;
+            case "0":
+                modeValue="walking";
+                break;
+        }
+        Call<DirectionResults> call = service.getJson(lat1.toString() + "," + lon1.toString(), lat2.toString() + "," + lon2.toString(), waypoint,modeValue);
         Log.v("URL",call.request().url().toString());
         call.enqueue(new Callback<DirectionResults>() {
 
