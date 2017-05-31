@@ -29,6 +29,10 @@
         <activity
             android:name="com.aurora.elezov.myapplication.MainActivity"
             android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name="com.aurora.elezov.myapplication.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

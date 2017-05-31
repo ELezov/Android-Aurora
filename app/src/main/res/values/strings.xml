@@ -20,4 +20,26 @@
     <string name="menu_night_mode_auto">Auto</string>
     <string name="title_activity_make_travel">MakeTravelActivity</string>
     <string name="title_activity_make_travel_next">MakeTravelNextActivity</string>
+
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Title1</string>
+    <string name="slide_1_desc">some text</string>
+
+    <string name="slide_2_title">Title2</string>
+    <string name="slide_2_desc">some text</string>
+
+    <string name="slide_3_title">Title3</string>
+    <string name="slide_3_desc">some text</string>
+
+    <string name="slide_4_title">Title4</string>
+    <string name="slide_4_desc">some text</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
+
 </resources>

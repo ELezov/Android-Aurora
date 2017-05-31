@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onResult(VKAccessToken res) {
                 //Пользователь успешно авторизовался
+                EMAIL = VKSdk.getAccessToken().email;
 
                 //  mStatusTextView.setText(getString(R.string.signed_in_fmt, VKSdk.getAccessToken().userId));
 
@@ -196,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements
 
             GoogleSignInAccount acct = result.getSignInAccount();
             EMAIL = acct.getEmail();
+            build_retrofit();
             Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
             startActivity(intent);
 
@@ -308,11 +310,11 @@ public class MainActivity extends AppCompatActivity implements
             switch (v.getId()) {
                 case R.id.google_login:
                     signIn();
-                    build_retrofit();
+
                     break;
                 case R.id.vk_login:
                     VKSdk.login(MainActivity.this, VKScope.WALL);
-                    build_retrofit();
+
                     break;
                 case R.id.fb_login:
                     if (AccessToken.getCurrentAccessToken() == null) {
