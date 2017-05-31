@@ -64,6 +64,7 @@ public class MakeTravelActivity extends AppCompatActivity {
 
         utils = Utils.getInstance();
         addMyLocationToTravel();
+
         data = new ArrayList<Result>();
         if (loc != null)
         {

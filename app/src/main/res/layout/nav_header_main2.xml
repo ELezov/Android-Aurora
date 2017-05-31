@@ -16,7 +16,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="centerInside"
-        android:src="@mipmap/aurora"/>
+        android:layout_gravity="center"
+        android:src="@mipmap/logo"/>
 
     <!--<ImageView-->
         <!--android:id="@+id/imageView"-->
