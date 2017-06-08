@@ -81,7 +81,24 @@ public class WelcomeActivity extends AppCompatActivity{
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchHomeScreen();
+
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                    //Log.e("WELCOME ACTIVITY", "PERMISSION NOT GRANTED");
+                    Toast toast = Toast.makeText(getApplicationContext(),"Приложению запрещен доступ к геоданным! Для того, чтобы продолжить, необходимо разрешить приложению доступ к геоданным", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    ActivityCompat.requestPermissions(WelcomeActivity.this,
+                            new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    android.Manifest.permission.ACCESS_FINE_LOCATION},
+                            1);
+                } else {
+                    //Log.e("WELCOME ACTIVITY", "PERMISSION GRANTED");
+                    launchHomeScreen();
+
+                }
             }
         });
 
@@ -94,9 +111,35 @@ public class WelcomeActivity extends AppCompatActivity{
                 if (current < layouts.length) {
                     // move to next screen
                     viewPager.setCurrentItem(current);
-                } else {
+                } else
 
-                    if (!isCheckPermission()){
+                {
+
+                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED &&
+                            ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {
+                        //Log.e("WELCOME ACTIVITY", "PERMISSION NOT GRANTED");
+                        Toast toast = Toast.makeText(getApplicationContext(),"Приложению запрещен доступ к геоданным! Для того, чтобы продолжить, необходимо разрешить приложению доступ к геоданным", Toast.LENGTH_SHORT);
+                        toast.show();
+
+                        ActivityCompat.requestPermissions(WelcomeActivity.this,
+                                new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                1);
+                    } else {
+                        //Log.e("WELCOME ACTIVITY", "PERMISSION GRANTED");
+                        launchHomeScreen();
+
+                    }
+
+
+
+
+
+
+
+                    /*if (!isCheckPermission()){
                         Toast toast = Toast.makeText(getApplicationContext(),"Приложению запрещен доступ к геоданным!", Toast.LENGTH_SHORT);
                         toast.show();
 
@@ -105,13 +148,14 @@ public class WelcomeActivity extends AppCompatActivity{
                     else {Toast toast = Toast.makeText(getApplicationContext(),"Приложению разрешен доступ к геоданным!", Toast.LENGTH_SHORT);
                         toast.show();
                         launchHomeScreen();
-                    }
+                    }*/
 
 
                 }
             }
         });
     }
+
 
     private boolean isCheckPermission() {
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
