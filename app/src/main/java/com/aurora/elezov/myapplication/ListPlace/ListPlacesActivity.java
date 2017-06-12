@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.aurora.elezov.myapplication.MakeTravelActivity;
 import com.aurora.elezov.myapplication.MapsActivity;
 import com.aurora.elezov.myapplication.Place.PlaceAPI;
-import com.aurora.elezov.myapplication.Place.Places;
+import com.aurora.elezov.myapplication.Place.PlacesResult;
 import com.aurora.elezov.myapplication.R;
 import com.aurora.elezov.myapplication.Utils;
 
@@ -131,12 +131,13 @@ public class ListPlacesActivity extends AppCompatActivity {
 
         PlaceAPI service = retrofit.create(PlaceAPI.class);
 
-        Call<Places> call = service.getNearbyPlaces(type, latitude + "," + longitude, 10000);
+        Call<PlacesResult> call = service.getNearbyPlaces(type, latitude + "," + longitude, 10000);
 
-        call.enqueue(new Callback<Places>() {
+        call.enqueue(new Callback<PlacesResult>() {
             @Override
-            public void onResponse(Call<Places> call, Response<Places> response) {
+            public void onResponse(Call<PlacesResult> call, Response<PlacesResult> response) {
                 utils.setNearbyPlaces(response.body().getResults());
+                Log.v("URL nearby PlacesResult",call.request().url().toString());
 
                 if (viewPager != null) {
                     setupViewPager(viewPager);
@@ -147,7 +148,7 @@ public class ListPlacesActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Places> call, Throwable t) {
+            public void onFailure(Call<PlacesResult> call, Throwable t) {
 
             }
 
@@ -197,8 +198,8 @@ public class ListPlacesActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new NearbyPlacesFragment(), "Nearby Places");
-        adapter.addFragment(new MyPlacesFragment(), "My Places");
+        adapter.addFragment(new NearbyPlacesFragment(), "Nearby PlacesResult");
+        adapter.addFragment(new MyPlacesFragment(), "My PlacesResult");
         viewPager.setAdapter(adapter);
     }
 

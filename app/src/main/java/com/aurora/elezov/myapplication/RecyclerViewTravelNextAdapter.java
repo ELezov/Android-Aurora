@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.aurora.elezov.myapplication.ListPlace.PlaceDetailActivity;
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Place.Place;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +21,13 @@ import java.util.List;
 
 public class RecyclerViewTravelNextAdapter extends RecyclerView.Adapter<RecyclerViewTravelNextAdapter.ViewHolder>{
     Utils utils;
-    private List<Result> data=new ArrayList<Result>();
+    private List<Place> data=new ArrayList<Place>();
 
     RecyclerViewTravelNextAdapter(){
         utils= Utils.getInstance();
     }
 
-    public void add(List<Result> items){
+    public void add(List<Place> items){
         data=items;
     }
 

@@ -20,7 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.aurora.elezov.myapplication.Place.Geometry;
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Place.Place;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +30,16 @@ public class MakeTravelActivity extends AppCompatActivity {
     Utils utils;
     SpinnerAdapter spinnerAdapterFrom;
     SpinnerAdapter spinnerAdapterTo;
-    Result fromResult;
-    Result toResult;
+    Place fromResult;
+    Place toResult;
 
     LocationManager locationManager;
     Double longitude;
     Double latitude;
     Location loc;
-    Result myLocation;
+    Place myLocation;
 
-    List<Result> data;
+    List<Place> data;
 
     Button nextBtn;
 
@@ -65,10 +65,10 @@ public class MakeTravelActivity extends AppCompatActivity {
         utils = Utils.getInstance();
         addMyLocationToTravel();
 
-        data = new ArrayList<Result>();
+        data = new ArrayList<Place>();
         if (loc != null)
         {
-            myLocation=new Result();
+            myLocation=new Place();
             myLocation.setName("Моё текущее местоположение");
             myLocation.setPlaceId("111");
             Log.v("LOG",myLocation.getPlaceId());

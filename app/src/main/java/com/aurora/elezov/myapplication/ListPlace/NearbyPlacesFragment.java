@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Place.Place;
 import com.aurora.elezov.myapplication.R;
 import com.aurora.elezov.myapplication.Utils;
 
@@ -39,7 +39,7 @@ public class NearbyPlacesFragment extends Fragment {
 
         RecyclerViewNearbyPlacesAdapter adapter = new RecyclerViewNearbyPlacesAdapter();
         MyAdapter = new RecyclerViewNearbyPlacesAdapter();
-        List<Result> arr=new ArrayList<Result>();
+        List<Place> arr=new ArrayList<Place>();
         arr=utils.getNearbyPlaces();
         MyAdapter.add(arr);
         rv.setAdapter(MyAdapter);

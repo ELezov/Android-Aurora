@@ -2,7 +2,8 @@ package com.aurora.elezov.myapplication;
 
 
 import com.aurora.elezov.myapplication.Details.ResultDetail;
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Direction.DirectionResults;
+import com.aurora.elezov.myapplication.Place.Place;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -16,46 +17,46 @@ public class Utils {
     public static final String GOOGLE_API_KEY = "AIzaSyDnwLF2-WfK8cVZt9OoDYJ9Y8kspXhEHfI";
     public static final String BASE_URL = "https://maps.googleapis.com/maps/";
     public static final String AURORA_URL = "http://auroraproject.azurewebsites.net/";
-    public List<Result> nearbyPlaces;
-    public List<Result> selectPlaces;
-    public List<Result> myTravel;
+    public List<Place> nearbyPlaces;
+    public List<Place> selectPlaces;
+    public List<Place> myTravel;
 
-
+    public DirectionResults dirResultsInfo;
     public ArrayList<LatLng> dirResults;
     public ResultDetail resultDetail;
     private static Utils utils;
 
-    public Result toTravel;
-    public Result fromTravel;
+    public Place toTravel;
+    public Place fromTravel;
 
-    public Result getToTravel() {
+    public Place getToTravel() {
         return toTravel;
     }
 
-    public void setToTravel(Result toTravel) {
+    public void setToTravel(Place toTravel) {
         this.toTravel = toTravel;
     }
 
-    public Result getFromTravel() {
+    public Place getFromTravel() {
         return fromTravel;
     }
 
-    public void setFromTravel(Result fromTravel) {
+    public void setFromTravel(Place fromTravel) {
         this.fromTravel = fromTravel;
     }
 
-    public List<Result> getMyTravel() {
+    public List<Place> getMyTravel() {
         return myTravel;
     }
 
-    public void setMyTravel(List<Result> myTravel) {
+    public void setMyTravel(List<Place> myTravel) {
         this.myTravel = myTravel;
     }
 
     private Utils(){
-        nearbyPlaces=new ArrayList<Result>();
-        selectPlaces=new ArrayList<Result>();
-        myTravel=new ArrayList<Result>();
+        nearbyPlaces=new ArrayList<Place>();
+        selectPlaces=new ArrayList<Place>();
+        myTravel=new ArrayList<Place>();
     }
 
     public static Utils getInstance(){
@@ -65,27 +66,27 @@ public class Utils {
         return utils;
     }
 
-    public List<Result> getNearbyPlaces() {
+    public List<Place> getNearbyPlaces() {
         return nearbyPlaces;
     }
 
-    public void setNearbyPlaces(List<Result> nearbyPlaces) {
+    public void setNearbyPlaces(List<Place> nearbyPlaces) {
         this.nearbyPlaces = nearbyPlaces;
     }
 
-    public void addToNearbyPlaces(Result result){
+    public void addToNearbyPlaces(Place result){
         nearbyPlaces.add(result);
     }
 
-    public List<Result> getSelectPlaces() {
+    public List<Place> getSelectPlaces() {
         return selectPlaces;
     }
 
-    public void setSelectPlaces(List<Result> selectPlaces) {
+    public void setSelectPlaces(List<Place> selectPlaces) {
         this.selectPlaces = selectPlaces;
     }
 
-    public void addToSelectPlaces(Result result){
+    public void addToSelectPlaces(Place result){
         selectPlaces.add(result);
     }
 
@@ -121,4 +122,12 @@ public class Utils {
     }
 
     public String getAuroraUrl(){ return  AURORA_URL; }
+
+    public DirectionResults getDirResultsInfo() {
+        return dirResultsInfo;
+    }
+
+    public void setDirResultsInfo(DirectionResults dirResultsInfo) {
+        this.dirResultsInfo = dirResultsInfo;
+    }
 }

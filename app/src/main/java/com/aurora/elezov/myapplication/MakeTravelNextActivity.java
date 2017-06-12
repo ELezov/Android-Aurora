@@ -22,7 +22,7 @@ import com.aurora.elezov.myapplication.Direction.DirectionResults;
 import com.aurora.elezov.myapplication.Direction.Route;
 import com.aurora.elezov.myapplication.Direction.RouteDecode;
 import com.aurora.elezov.myapplication.Direction.Steps;
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Place.Place;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class MakeTravelNextActivity extends AppCompatActivity {
     RecyclerView rv;
     public static RecyclerViewTravelNextAdapter MyAdapter;
     TextView warningText;
-    List<Result> data;
+    List<Place> data;
     private RecyclerView.LayoutManager mLayoutManager;
     ProgressDialog progressDialog;
 
@@ -56,10 +56,10 @@ public class MakeTravelNextActivity extends AppCompatActivity {
         String str2=intent.getStringExtra(MakeTravelActivity.toTravel);
         data=utils.getSelectPlaces();
 
-        Iterator<Result> i=data.iterator();
+        Iterator<Place> i=data.iterator();
         while (i.hasNext())
         {
-            Result s=i.next();
+            Place s=i.next();
             if (s.getPlaceId().equals(str1)||s.getPlaceId().equals(str2)){
                 i.remove();
             }
@@ -104,7 +104,7 @@ public class MakeTravelNextActivity extends AppCompatActivity {
                     progressDialog=new ProgressDialog(getApplicationContext());
                     progressDialog.setTitle("Please wait");
                     progressDialog.setMessage("Loading...");
-                    List<Result> travel=new ArrayList<Result>();
+                    List<Place> travel=new ArrayList<Place>();
                     travel.add(utils.fromTravel);
                     travel.add(utils.toTravel);
                     for (int i=0;i<data.size();i++)
@@ -118,7 +118,7 @@ public class MakeTravelNextActivity extends AppCompatActivity {
 
     }
 
-    private void build_retrofit_and_get_duration_in_response(List<Result> data)
+    private void build_retrofit_and_get_duration_in_response(List<Place> data)
     {
         String url = "https://maps.googleapis.com/maps/";
         Retrofit retrofit = new Retrofit.Builder()
@@ -167,8 +167,8 @@ public class MakeTravelNextActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<DirectionResults> call, Response<DirectionResults> response) {
-                Log.v("HAHA","SUKAA");
                 Log.v("URL",""+call.request().url().toString());
+                utils.setDirResultsInfo(response.body());
                 DirectionResults directionResults = response.body();
                 ArrayList<LatLng> routelist = new ArrayList<LatLng>();
                 if (directionResults.getRoutes().size() > 0) {

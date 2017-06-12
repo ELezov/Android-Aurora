@@ -1,5 +1,8 @@
 package com.aurora.elezov.myapplication.Direction;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,6 +11,12 @@ import java.util.List;
 
 public class Legs {
     private List<Steps> steps;
+    @SerializedName("distance")
+    @Expose
+    private Distance distance;
+    @SerializedName("duration")
+    @Expose
+    private Duration duration;
 
     public List<Steps> getSteps() {
         return steps;

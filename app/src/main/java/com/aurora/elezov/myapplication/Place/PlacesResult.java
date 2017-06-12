@@ -10,7 +10,7 @@ import java.util.List;
  * Created by USER on 18.02.2017.
  */
 
-public class Places {
+public class PlacesResult {
     @SerializedName("html_attributions")
     @Expose
     private List<Object> htmlAttributions = new ArrayList<Object>();
@@ -19,13 +19,13 @@ public class Places {
     private String nextPageToken;
     @SerializedName("results")
     @Expose
-    private List<Result> results = new ArrayList<Result>();
+    private List<Place> results = new ArrayList<Place>();
     @SerializedName("status")
     @Expose
     private String status;
 
 
-    public void addToListResult(Result result){
+    public void addToListResult(Place result){
         results.add(result);
     }
     /**
@@ -69,7 +69,7 @@ public class Places {
      * @return
      * The results
      */
-    public List<Result> getResults() {
+    public List<Place> getResults() {
         return results;
     }
 
@@ -78,7 +78,7 @@ public class Places {
      * @param results
      * The results
      */
-    public void setResults(List<Result> results) {
+    public void setResults(List<Place> results) {
         this.results = results;
     }
 

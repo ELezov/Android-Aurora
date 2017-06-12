@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Place.Place;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ import java.util.List;
  * Created by USER on 27.02.2017.
  */
 
-public class SpinnerAdapter extends ArrayAdapter<Result> {
+public class SpinnerAdapter extends ArrayAdapter<Place> {
     Context context;
-    List<Result> data;
+    List<Place> data;
     boolean flag = false;
 
-    public SpinnerAdapter(Context context, int resource, List<Result> objects) {
+    public SpinnerAdapter(Context context, int resource, List<Place> objects) {
         super(context, resource, objects);
         this.data=objects;
         this.context=context;
@@ -39,7 +39,7 @@ public class SpinnerAdapter extends ArrayAdapter<Result> {
         return data.size();
     }
 
-    public Result getItem(int position)
+    public Place getItem(int position)
     {
         return data.get(position);
     }

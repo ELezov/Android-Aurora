@@ -1,9 +1,7 @@
 package com.aurora.elezov.myapplication;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,10 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.aurora.elezov.myapplication.ListPlace.ListPlacesActivity;
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Place.Place;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -162,7 +159,7 @@ public class MapsActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_camera) {
-            List<Result> nullList=new ArrayList<Result>();
+            List<Place> nullList=new ArrayList<Place>();
             ArrayList<LatLng> nullDirections=new ArrayList<LatLng>();
             utils.setNearbyPlaces(nullList);
             utils.setSelectPlaces(nullList);

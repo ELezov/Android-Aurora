@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Place.Place;
 import com.aurora.elezov.myapplication.R;
 import com.aurora.elezov.myapplication.Utils;
 
@@ -25,14 +25,14 @@ public class RecyclerViewSelectPlacesAdapter extends RecyclerView.Adapter<Recycl
 
     Utils utils;
 
-    private List<Result> data=new ArrayList<Result>();
+    private List<Place> data=new ArrayList<Place>();
 
     public RecyclerViewSelectPlacesAdapter() {
 
         utils= Utils.getInstance();
     }
 
-    public void add(List<Result> items)
+    public void add(List<Place> items)
     {
         data=items;
     }
@@ -56,7 +56,7 @@ public class RecyclerViewSelectPlacesAdapter extends RecyclerView.Adapter<Recycl
                 NearbyPlacesFragment.MyAdapter.add(utils.getNearbyPlaces());
                 NearbyPlacesFragment.MyAdapter.notifyDataSetChanged();
 
-                List<Result> selectP=utils.getSelectPlaces();
+                List<Place> selectP=utils.getSelectPlaces();
                 selectP.remove(position);
                 utils.setSelectPlaces(selectP);
                 Log.v("Select count",""+utils.getSelectPlaces().size());

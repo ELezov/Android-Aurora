@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.aurora.elezov.myapplication.Place.Result;
+import com.aurora.elezov.myapplication.Place.Place;
 import com.aurora.elezov.myapplication.R;
 import com.aurora.elezov.myapplication.Utils;
 
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<RecyclerViewNearbyPlacesAdapter.ViewHolder> {
 
-    private List<Result> data=new ArrayList<Result>();
+    private List<Place> data=new ArrayList<Place>();
     Utils utils;
 
 
@@ -46,7 +46,7 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
         }
     }
 
-    public Result getResultAt(int position) {
+    public Place getResultAt(int position) {
         return data.get(position);
     }
 
@@ -55,7 +55,7 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
         utils=Utils.getInstance();
     }
 
-    public void add(List<Result> items){
+    public void add(List<Place> items){
         data=items;
     }
 
@@ -78,7 +78,7 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
                 MyPlacesFragment.MyAdapter.add(utils.getSelectPlaces());
                 MyPlacesFragment.MyAdapter.notifyDataSetChanged();
 
-                List<Result> nerbP=utils.getNearbyPlaces();
+                List<Place> nerbP=utils.getNearbyPlaces();
                 nerbP.remove(position);
                 utils.setNearbyPlaces(nerbP);
                 Log.v("Nearby count",""+utils.getNearbyPlaces().size());

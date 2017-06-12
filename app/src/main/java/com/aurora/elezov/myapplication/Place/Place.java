@@ -10,7 +10,7 @@ import java.util.List;
  * Created by USER on 18.02.2017.
  */
 
-public class Result {
+public class Place {
     @SerializedName("geometry")
     @Expose
     private Geometry geometry;
@@ -53,7 +53,7 @@ public class Result {
 
 
 
-   /* public Result(String name,Double lat,Double lon){
+   /* public Place(String name,Double lat,Double lon){
         this.name=name;
         Location location=new Location();
         location.setLat(lat);
