@@ -22,10 +22,12 @@
         app:headerLayout="@layout/nav_header_main2"
         app:menu="@menu/activity_maps_drawer" />
 
+
     <!--<include layout="@layout/content_map" />-->
         <!--<com.google.android.gms.maps.MapView-->
         <!--android:id="@+id/map"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content" />-->
+
 
 </android.support.v4.widget.DrawerLayout>

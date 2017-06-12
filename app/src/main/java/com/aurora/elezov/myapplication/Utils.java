@@ -20,6 +20,7 @@ public class Utils {
     public List<Place> nearbyPlaces;
     public List<Place> selectPlaces;
     public List<Place> myTravel;
+    public String EMAIL = "";
 
     public DirectionResults dirResultsInfo;
     public ArrayList<LatLng> dirResults;
@@ -114,6 +115,13 @@ public class Utils {
 
     public String getApiKey(){
         return  GOOGLE_API_KEY;
+    }
+
+    public void setCurrentEmail(String NewEmail) {
+        this.EMAIL = NewEmail;
+    }
+    public String getCurrentEmail(){
+        return  EMAIL;
     }
 
 

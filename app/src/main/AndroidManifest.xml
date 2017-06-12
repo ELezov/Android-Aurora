@@ -12,7 +12,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/aurora"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
@@ -29,6 +29,7 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait">
 
+
         </activity>
 
         <activity android:name="com.aurora.elezov.myapplication.WelcomeActivity">
@@ -41,6 +42,10 @@
         <activity
             android:name=".ListPlace.ListPlacesActivity"
             android:parentActivityName=".MapsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DB.MyRoute"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

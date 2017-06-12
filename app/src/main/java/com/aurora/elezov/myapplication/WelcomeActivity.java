@@ -42,10 +42,10 @@ public class WelcomeActivity extends AppCompatActivity{
 
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);
-      /*  if (!prefManager.isFirstTimeLaunch()) {
+       if (!prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
-        }*/
+        }
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -132,24 +132,6 @@ public class WelcomeActivity extends AppCompatActivity{
                         launchHomeScreen();
 
                     }
-
-
-
-
-
-
-
-                    /*if (!isCheckPermission()){
-                        Toast toast = Toast.makeText(getApplicationContext(),"Приложению запрещен доступ к геоданным!", Toast.LENGTH_SHORT);
-                        toast.show();
-
-
-                    }
-                    else {Toast toast = Toast.makeText(getApplicationContext(),"Приложению разрешен доступ к геоданным!", Toast.LENGTH_SHORT);
-                        toast.show();
-                        launchHomeScreen();
-                    }*/
-
 
                 }
             }

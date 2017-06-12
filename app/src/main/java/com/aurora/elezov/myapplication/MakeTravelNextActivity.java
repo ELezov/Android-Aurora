@@ -15,8 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.aurora.elezov.myapplication.DB.DatabaseHelper;
 import com.aurora.elezov.myapplication.Direction.DirectionAPI;
 import com.aurora.elezov.myapplication.Direction.DirectionResults;
 import com.aurora.elezov.myapplication.Direction.Route;
@@ -24,6 +26,10 @@ import com.aurora.elezov.myapplication.Direction.RouteDecode;
 import com.aurora.elezov.myapplication.Direction.Steps;
 import com.aurora.elezov.myapplication.Place.Place;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,8 +48,11 @@ public class MakeTravelNextActivity extends AppCompatActivity {
     public static RecyclerViewTravelNextAdapter MyAdapter;
     TextView warningText;
     List<Place> data;
+    CheckBox SaverCB;
+    String SomeText;
     private RecyclerView.LayoutManager mLayoutManager;
     ProgressDialog progressDialog;
+    DatabaseHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,7 @@ public class MakeTravelNextActivity extends AppCompatActivity {
         String str1=intent.getStringExtra(MakeTravelActivity.fromTravel);
         String str2=intent.getStringExtra(MakeTravelActivity.toTravel);
         data=utils.getSelectPlaces();
+        SaverCB = (CheckBox)findViewById(R.id.saver_cb);
 
         Iterator<Place> i=data.iterator();
         while (i.hasNext())
@@ -118,7 +128,7 @@ public class MakeTravelNextActivity extends AppCompatActivity {
 
     }
 
-    private void build_retrofit_and_get_duration_in_response(List<Place> data)
+    private void build_retrofit_and_get_duration_in_response(final List<Place> data)
     {
         String url = "https://maps.googleapis.com/maps/";
         Retrofit retrofit = new Retrofit.Builder()
@@ -199,7 +209,41 @@ public class MakeTravelNextActivity extends AppCompatActivity {
                 Log.v("COUNT DIRECTION MAKE",""+routelist.size());
                 utils.setDirResults(routelist);
 
+                int ITER  = data.size();
+
+                ArrayList PlaceIDList = new ArrayList();
+                ArrayList PlaceNameList = new ArrayList();
+                ArrayList LanLngList = new ArrayList();
+                while (ITER>0){
+                    if (data.get(ITER-1).getName()!= "Моё текущее местоположение") {
+                        PlaceIDList.add(data.get(ITER - 1).getPlaceId());
+                        PlaceNameList.add(data.get(ITER - 1).getName());
+                        LanLngList.add(data.get(ITER - 1).getGeometry().getLocation().getLat() +
+                                " " + data.get(ITER - 1).getGeometry().getLocation().getLng());
+
+                    }
+                    ITER--;
+                }
+                JSONObject MyRoute = new JSONObject();
+                JSONArray PlaceIDArray = new JSONArray();
+                JSONArray PlaceNameArray = new JSONArray();
+                JSONArray LanLngArray = new JSONArray();
+
+                try{
+
+                    PlaceIDArray.put(PlaceIDList);
+                    PlaceNameArray.put(PlaceNameList);
+                    LanLngArray.put(LanLngList);
+
+                    MyRoute.put("PlaceID", PlaceIDArray);
+                    MyRoute.put("PlaceName", PlaceNameArray);
+                    MyRoute.put("LanLng", LanLngArray);
+                    SomeText = MyRoute.toString();
+                } catch (JSONException e){}
+
+
                 progressDialog.dismiss();
+                if (SaverCB.isChecked()) sql_route();
                 Intent intent=new Intent(getApplicationContext(),MapsActivity.class);
                 startActivity(intent);
             }
@@ -217,5 +261,11 @@ public class MakeTravelNextActivity extends AppCompatActivity {
         this.onBackPressed();
         return super.onOptionsItemSelected(item);
     }
+
+    public void sql_route(){
+        helper = new DatabaseHelper(MakeTravelNextActivity.this);
+        helper.insertIntoDB(SomeText, utils.getCurrentEmail());
+    }
+
 
 }

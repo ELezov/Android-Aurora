@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.aurora.elezov.myapplication.Details.Result;
 import com.aurora.elezov.myapplication.Details.ResultDetail;
+import com.aurora.elezov.myapplication.Social.GetUserID;
+import com.aurora.elezov.myapplication.Social.GetUserInfo;
 import com.aurora.elezov.myapplication.Social.UserInfoAPI;
 import com.aurora.elezov.myapplication.Social.UserInfoDetail;
 import com.facebook.AccessToken;
@@ -51,6 +53,9 @@ import com.vk.sdk.api.model.VKApiUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,9 +83,11 @@ public class MainActivity extends AppCompatActivity implements
     ProgressDialog progress;
 
     Utils utils;
-    public String EMAIL = "ForTest";
+ //   public String EMAIL = "ForTest";
     public static final int SOMEID = 4;
     public int ID;
+    List<GetUserID> posts = new ArrayList<>();
+
 
 
 
@@ -91,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements
 
         callbackManager = CallbackManager.Factory.create();
         loginButton = (LoginButton) findViewById(R.id.fb_login);
+        utils=Utils.getInstance();
 
         progress=new ProgressDialog(MainActivity.this);
 
@@ -175,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onResult(VKAccessToken res) {
                 //Пользователь успешно авторизовался
-                EMAIL = VKSdk.getAccessToken().email;
+                utils.setCurrentEmail(VKSdk.getAccessToken().email);
+                Log.i("11111111111111", "email:" + utils.getCurrentEmail());
 
                 //  mStatusTextView.setText(getString(R.string.signed_in_fmt, VKSdk.getAccessToken().userId));
 
@@ -207,8 +216,21 @@ public class MainActivity extends AppCompatActivity implements
         if (result.isSuccess()) {
 
             GoogleSignInAccount acct = result.getSignInAccount();
-            EMAIL = acct.getEmail();
+            String EMAIL = acct.getEmail();
+            utils.setCurrentEmail(EMAIL);
+            Log.i("11111111111111", "email:" + utils.getCurrentEmail());
             build_retrofit();
+
+            //_____________________________________
+
+            get_retrofit();
+
+
+
+
+
+            //_____________________________________
+
             Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
             startActivity(intent);
 
@@ -232,15 +254,14 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
 
-                        EMAIL = null;
+                       // EMAIL = null;
 
                         try {
 
-                            EMAIL = object.getString("email");
-                            Log.v(TAG, object.toString());
-                            Log.v(TAG, EMAIL);
-                            String json = EMAIL.toString();
-                            Log.d(TAG, "JSON TO STRING:" + json);
+                           // EMAIL = object.getString("email");
+                            utils.setCurrentEmail((object.getString("email")).toString());
+                           // String json = EMAIL.toString();
+                           // Log.d(TAG, "JSON TO STRING:" + json);
 
 
                         } catch (JSONException e) {
@@ -249,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-                        Toast.makeText(getApplicationContext(), EMAIL, Toast.LENGTH_SHORT).show();
+                     //   Toast.makeText(getApplicationContext(), EMAIL, Toast.LENGTH_SHORT).show();
 
                         //build_retrofit();
                     }
@@ -364,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements
 
         UserInfoAPI service = retrofit.create(UserInfoAPI.class);
 
-        Call<UserInfoDetail> call = service.PostUserInfo(SOMEID, EMAIL);
+        Call<UserInfoDetail> call = service.PostUserInfo(SOMEID, utils.getCurrentEmail());
         //Call<UserInfoDetail> call = service.PostUserInfo(EMAIL);
         call.enqueue(new Callback<UserInfoDetail>() {
 
@@ -379,6 +400,42 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onFailure(Call<UserInfoDetail> call, Throwable t) {
+
+
+            }
+        });
+    }
+    private void get_retrofit() {
+
+
+        utils = Utils.getInstance();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(utils.AURORA_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        GetUserInfo service = retrofit.create(GetUserInfo.class);
+
+        Call<GetUserID> call = service.getUserInfo("11");
+        //Call<UserInfoDetail> call = service.PostUserInfo(EMAIL);
+        call.enqueue(new Callback<GetUserID>() {
+
+            @Override
+            public void onResponse(Call<GetUserID> call, Response<GetUserID> response) {
+                Log.v("URL", call.request().url().toString());
+                if (response.isSuccessful()) {
+                    String newqqq = response.body().getMail();
+                    Log.v("ОТВЕТ", newqqq);
+
+
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUserID> call, Throwable t) {
 
 
             }

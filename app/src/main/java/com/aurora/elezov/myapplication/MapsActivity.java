@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.aurora.elezov.myapplication.DB.MyRoute;
 import com.aurora.elezov.myapplication.ListPlace.ListPlacesActivity;
 import com.aurora.elezov.myapplication.Place.Place;
 import com.facebook.login.LoginManager;
@@ -33,6 +34,8 @@ import com.vk.sdk.dialogs.VKShareDialogBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.android.gms.R.id.toolbar;
+
 
 public class MapsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -45,6 +48,7 @@ public class MapsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
 
         Fragment fragment = null;
         Class fragmentClass = null;
@@ -169,12 +173,14 @@ public class MapsActivity extends AppCompatActivity
             startActivity(intent);
             //fragmentClass = FirstFragment.class;
         } else if (id == R.id.nav_gallery) {
-            //fragmentClass = SecondFragment.class;
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-            Intent intent = new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(this, MyRoute.class);
             startActivity(intent);
+            //fragmentClass = SecondFragment.class;
+        } //else if (id == R.id.nav_slideshow) {
+
+         else if (id == R.id.nav_manage) {
+         //   Intent intent = new Intent(this, SettingsActivity.class);
+           // startActivity(intent);
         } else if (id == R.id.nav_send) {
 
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(

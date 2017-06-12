@@ -31,7 +31,7 @@
             android:scaleType="center"
             android:paddingLeft="50dp"
             android:layout_marginLeft="50dp"
-            android:background="@drawable/add"
+            android:background="@drawable/add_icon"
              />
 
     </LinearLayout>

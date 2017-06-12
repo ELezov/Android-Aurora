@@ -3,14 +3,21 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/AuroraMainColor</item>
+        <item name="colorPrimaryDark">@color/com_facebook_button_login_silver_background_color_pressed</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
 
+    </style>
+
+    <style name="my_toolbar" >
+        <item name="android:background">@mipmap/back</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:textColorPrimary">?attr/colorAccent</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

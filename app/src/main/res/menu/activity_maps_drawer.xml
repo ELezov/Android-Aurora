@@ -4,28 +4,25 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Search nearby places" />
+            android:icon="@drawable/ic_search"
+            android:title="Поиск достопримечательностей" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="My Routes" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Share Route" />
+            android:icon="@drawable/ic_my_route"
+            android:title="Мои маршруты" />
+
     </group>
 
     <item android:title="System">
         <menu>
             <item
                 android:id="@+id/nav_manage"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Settings" />
+                android:icon="@drawable/ic_settings"
+                android:title="Настройки" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Exit" />
+                android:icon="@drawable/ic_exit"
+                android:title="Выход" />
         </menu>
     </item>
 
