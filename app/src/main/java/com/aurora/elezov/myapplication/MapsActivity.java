@@ -179,8 +179,8 @@ public class MapsActivity extends AppCompatActivity
         } //else if (id == R.id.nav_slideshow) {
 
          else if (id == R.id.nav_manage) {
-         //   Intent intent = new Intent(this, SettingsActivity.class);
-           // startActivity(intent);
+           Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_send) {
 
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(

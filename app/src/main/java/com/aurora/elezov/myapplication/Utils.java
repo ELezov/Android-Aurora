@@ -138,4 +138,6 @@ public class Utils {
     public void setDirResultsInfo(DirectionResults dirResultsInfo) {
         this.dirResultsInfo = dirResultsInfo;
     }
+
+
 }

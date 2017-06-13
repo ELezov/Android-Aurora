@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.aurora.elezov.myapplication.DB.DatabaseHelper;
+import com.aurora.elezov.myapplication.DB.MyRoute;
 import com.aurora.elezov.myapplication.Direction.DirectionAPI;
 import com.aurora.elezov.myapplication.Direction.DirectionResults;
 import com.aurora.elezov.myapplication.Direction.Route;
@@ -209,37 +210,66 @@ public class MakeTravelNextActivity extends AppCompatActivity {
                 Log.v("COUNT DIRECTION MAKE",""+routelist.size());
                 utils.setDirResults(routelist);
 
-                int ITER  = data.size();
 
-                ArrayList PlaceIDList = new ArrayList();
-                ArrayList PlaceNameList = new ArrayList();
-                ArrayList LanLngList = new ArrayList();
-                while (ITER>0){
-                    if (data.get(ITER-1).getName()!= "Моё текущее местоположение") {
-                        PlaceIDList.add(data.get(ITER - 1).getPlaceId());
-                        PlaceNameList.add(data.get(ITER - 1).getName());
-                        LanLngList.add(data.get(ITER - 1).getGeometry().getLocation().getLat() +
-                                " " + data.get(ITER - 1).getGeometry().getLocation().getLng());
+                JSONObject myRoute= new JSONObject();
+                JSONArray ar = new JSONArray();
 
+
+                for (int i=0;i<data.size();i++)
+                {
+                    if (data.get(i).getName()!= "Моё текущее местоположение"){
+                        JSONObject obj = new JSONObject();
+                        try {
+                            obj.put("place_id",data.get(i).getPlaceId());
+                            obj.put("name",data.get(i).getName());
+                            obj.put("lat",data.get(i).getGeometry().getLocation().getLat());
+                            obj.put("lon",data.get(i).getGeometry().getLocation().getLng());
+                            obj.put("vicinity",data.get(i).getVicinity());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ar.put(obj);
                     }
-                    ITER--;
-                }
-                JSONObject MyRoute = new JSONObject();
-                JSONArray PlaceIDArray = new JSONArray();
-                JSONArray PlaceNameArray = new JSONArray();
-                JSONArray LanLngArray = new JSONArray();
 
-                try{
+                }
+                Log.v("ARR",ar.toString());
+                try {
+                    myRoute.put("places",ar);
+                    SomeText=myRoute.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                /*Log.v("MyJSON",ar.toString());
+                try {
+                    Log.v("MyJSON 2", ar.get(1).toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    JSONObject object=ar.getJSONObject(1);
+                    Log.v("MyJSON 2 Name", (String) object.get("name"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
+
+                /*try{
 
                     PlaceIDArray.put(PlaceIDList);
                     PlaceNameArray.put(PlaceNameList);
                     LanLngArray.put(LanLngList);
 
+
+
                     MyRoute.put("PlaceID", PlaceIDArray);
                     MyRoute.put("PlaceName", PlaceNameArray);
                     MyRoute.put("LanLng", LanLngArray);
+
+
+
                     SomeText = MyRoute.toString();
-                } catch (JSONException e){}
+                } catch (JSONException e){}*/
 
 
                 progressDialog.dismiss();

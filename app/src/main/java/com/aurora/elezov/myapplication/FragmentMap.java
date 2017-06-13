@@ -108,29 +108,35 @@ public class FragmentMap extends Fragment {
 
                     List<com.aurora.elezov.myapplication.Place.Place> myTravelPlaces=utils.getMyTravel();
 
-                    int i=0;
-                    Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                            R.drawable.start);
-                    Bitmap bitmap = bitmapSizeByScall(icon, 0.3f);
-                    googleMap.addMarker(new MarkerOptions()
-                            .title(myTravelPlaces.get(i).getName())
-                            .position(new LatLng(myTravelPlaces.get(i).getGeometry().getLocation().getLat(),
-                                    myTravelPlaces.get(i).getGeometry().getLocation().getLng()))
-                            .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                            .snippet(myTravelPlaces.get(i).getVicinity()));
 
-                    i=1;
-                    icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                            R.drawable.finish);
-                    bitmap = bitmapSizeByScall(icon, 0.3f);
-                    googleMap.addMarker(new MarkerOptions()
-                            .title(myTravelPlaces.get(i).getName())
-                            .position(new LatLng(myTravelPlaces.get(i).getGeometry().getLocation().getLat(),
-                                    myTravelPlaces.get(i).getGeometry().getLocation().getLng()))
-                            .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
-                            .snippet(myTravelPlaces.get(i).getVicinity()));
 
-                    if (utils.getDirResults() != null) {
+                    if ((utils.getDirResults() != null)&&(utils.getDirResults().size()>0)) {
+
+                        int i=0;
+                        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                                R.drawable.start);
+                        Bitmap bitmap = bitmapSizeByScall(icon, 0.3f);
+                        googleMap.addMarker(new MarkerOptions()
+                                .title(myTravelPlaces.get(i).getName())
+                                .position(new LatLng(myTravelPlaces.get(i).getGeometry().getLocation().getLat(),
+                                        myTravelPlaces.get(i).getGeometry().getLocation().getLng()))
+                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                                .snippet(myTravelPlaces.get(i).getVicinity()));
+
+                        i=1;
+                        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                                R.drawable.finish);
+                        bitmap = bitmapSizeByScall(icon, 0.3f);
+                        googleMap.addMarker(new MarkerOptions()
+                                .title(myTravelPlaces.get(i).getName())
+                                .position(new LatLng(myTravelPlaces.get(i).getGeometry().getLocation().getLat(),
+                                        myTravelPlaces.get(i).getGeometry().getLocation().getLng()))
+                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                                .snippet(myTravelPlaces.get(i).getVicinity()));
+
+
+
+
                         DirectionResults result = utils.getDirResultsInfo();
                         List<Integer> waypointOrder = result.getRoutes().get(0).getWaypointOrder();
                         int size = waypointOrder.size();

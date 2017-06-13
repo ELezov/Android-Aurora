@@ -70,6 +70,7 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mTextView.setText(data.get(position).getName());
 
+
         holder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +101,10 @@ public class RecyclerViewNearbyPlacesAdapter extends RecyclerView.Adapter<Recycl
                 context.startActivity(intent);
             }
         });
+
+        if (position==data.size()-1){
+
+        }
 
 
     }

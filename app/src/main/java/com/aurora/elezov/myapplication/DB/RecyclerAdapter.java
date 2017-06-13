@@ -11,7 +11,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aurora.elezov.myapplication.ListPlace.PlaceDetailActivity;
+import com.aurora.elezov.myapplication.MakeTravelNextActivity;
+import com.aurora.elezov.myapplication.MapsActivity;
+import com.aurora.elezov.myapplication.Place.Geometry;
+import com.aurora.elezov.myapplication.Place.Place;
 import com.aurora.elezov.myapplication.R;
+import com.aurora.elezov.myapplication.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +34,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
   static   List<DatabaseModel> dbList;
     static  Context context;
     String PlaceList;
+    Utils utils;
     RecyclerAdapter(Context context, List<DatabaseModel> dbList ){
         this.dbList = new ArrayList<DatabaseModel>();
         this.context = context;
@@ -48,25 +55,75 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         JSONObject obj = new JSONObject();
 
         String json = dbList.get(position).getRoute();
-
+        PlaceList=" ";
         try {
             obj = new JSONObject(json);
             try{
-                 JSONArray jsonArray = obj.getJSONArray("PlaceName");
-                 PlaceList = jsonArray.toString();
+                 JSONArray jsonArray = obj.getJSONArray("places");
+
+                for (int i=0;i<jsonArray.length();i++){
+                    JSONObject jsonObject=jsonArray.getJSONObject(i);
+                    PlaceList=PlaceList+jsonObject.get("name").toString()+" \n ";
+                }
+
+
 
             }catch (JSONException e){}
 
         } catch (Throwable t) {}
-        PlaceList = PlaceList.substring(3,PlaceList.length()-3);
+
         Log.i("111111111111111", PlaceList);
         holder.route.setText(PlaceList);
        // holder.route.setText(dbList.get(position).getRoute());
         //holder.email.setText(dbList.get(position).getEmail());
+        holder.v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String json = dbList.get(position).getRoute();
+                Log.v("PLACE", "ENTER IN");
+
+                try {
+                    JSONObject obj = new JSONObject(json);
+                    try{
+                        JSONArray array=obj.getJSONArray("places");
+                        //JSONArray VicinityArray = obj.getJSONArray("Visinity");
+                        Log.i("PLACE POLINA", array.get(0).toString());
+                        List<Place> places=new ArrayList<Place>();
+                        for (int i=0;i<array.length();i++){
+                            JSONObject jsonObject=array.getJSONObject(i);
+                            Place place=new Place();
+                            place.setPlaceId(jsonObject.get("place_id").toString());
+                            place.setName(jsonObject.get("name").toString());
+                            Double lat=Double.parseDouble(jsonObject.get("lat").toString());
+                            Double lon=Double.parseDouble(jsonObject.get("lon").toString());
+                            place.setVicinity(jsonObject.get("vicinity").toString());
+                            Geometry geometry=new Geometry();
+                            com.aurora.elezov.myapplication.Place.Location location=new com.aurora.elezov.myapplication.Place.Location();
+                            location.setLng(lon);
+                            location.setLat(lat);
+                            geometry.setLocation(location);
+                            place.setGeometry(geometry);
+                            places.add(place);
+                            Log.i("PLACE", places.get(i).getName()+" ; "+places.get(i).getGeometry().getLocation().getLat());
+                            utils=Utils.getInstance();
+                            utils.setSelectPlaces(places);
+                            Context context = v.getContext();
+                            Intent intent = new Intent(context, MakeTravelNextActivity.class);
+                            context.startActivity(intent);
+                        }
+                    }catch (JSONException e){
+                        Log.v("ERROR", e.getMessage().toString());
+                    }
+
+                } catch (Throwable t) {
+                    Log.v("ERROR", t.getMessage().toString());
+                }
+            }
+        });
 
     }
 
@@ -75,22 +132,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return dbList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        View v;
 
         public TextView route,email;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
+            v=itemLayoutView;
             route = (TextView) itemLayoutView
                     .findViewById(R.id.rvroute);
             //email = (TextView)itemLayoutView.findViewById(R.id.rvemail);
-            itemLayoutView.setOnClickListener(this);
 
         }
 
-        @Override
-        public void onClick(View v) {
-
-        }
     }
 }
