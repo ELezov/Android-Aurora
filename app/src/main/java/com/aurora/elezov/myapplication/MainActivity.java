@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 //  mStatusTextView.setText(getString(R.string.signed_in_fmt, VKSdk.getAccessToken().userId));
 
-                build_retrofit();
+                //build_retrofit();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
 
@@ -219,11 +219,11 @@ public class MainActivity extends AppCompatActivity implements
             String EMAIL = acct.getEmail();
             utils.setCurrentEmail(EMAIL);
             Log.i("11111111111111", "email:" + utils.getCurrentEmail());
-            build_retrofit();
+           // build_retrofit();
 
             //_____________________________________
 
-            get_retrofit();
+           //get_retrofit();
 
 
 
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements
                 parameters.putString("fields", "email");
                 request.setParameters(parameters);
                 request.executeAsync();
-                build_retrofit();
+               // build_retrofit();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
 

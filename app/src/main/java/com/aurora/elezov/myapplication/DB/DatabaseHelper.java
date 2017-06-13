@@ -86,5 +86,25 @@ ase */
     }
 
 
+    public void ShareByEmail(String route,String email){
+        Log.d("insert", "before insert");
+
+        // get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put("route", route);
+        values.put("email", email);
+
+        // insert
+        db.insert(ROUTE_TABLE, null, values);
+
+        // close
+        db.close();
+
+    }
+
+
 
 }

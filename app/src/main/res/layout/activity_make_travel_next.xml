@@ -21,24 +21,36 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_make_travel_next"
-        android:id="@+id/include" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/make_travel" />
+        android:src="@drawable/make_travel"
+        />
 
     <CheckBox
         android:id="@+id/saver_cb"
         android:layout_width="115dp"
         android:layout_height="55dp"
-        android:layout_gravity="center_vertical|right"
+        android:layout_gravity="top|right"
         android:text="Сохранить маршрут"
         app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="bottom|center_horizontal" />
+        app:layout_anchorGravity="bottom|left" />
+
+    <Button
+        android:id="@+id/ShareButton"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@color/colorPrimary"
+        android:onClick="ShareClick"
+        android:text="Поделиться маршрутом"
+        android:textColor="@color/vk_white" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_make_travel_next" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -64,8 +64,7 @@ public class MapsActivity extends AppCompatActivity
             }
         });
         */
-
-      //  shareWithDialog(getSupportFragmentManager());
+        //shareWithDialog(getSupportFragmentManager());
 
 
 

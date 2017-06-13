@@ -1,5 +1,6 @@
 package com.aurora.elezov.myapplication;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,11 +16,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aurora.elezov.myapplication.DB.DatabaseHelper;
 import com.aurora.elezov.myapplication.DB.MyRoute;
+import com.aurora.elezov.myapplication.DB.ShareDialogFragment;
 import com.aurora.elezov.myapplication.Direction.DirectionAPI;
 import com.aurora.elezov.myapplication.Direction.DirectionResults;
 import com.aurora.elezov.myapplication.Direction.Route;
@@ -43,7 +47,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MakeTravelNextActivity extends AppCompatActivity {
+public class MakeTravelNextActivity extends AppCompatActivity implements ShareDialogFragment.EditNameDialogListener {
     Utils utils;
     RecyclerView rv;
     public static RecyclerViewTravelNextAdapter MyAdapter;
@@ -54,6 +58,7 @@ public class MakeTravelNextActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ProgressDialog progressDialog;
     DatabaseHelper helper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,7 @@ public class MakeTravelNextActivity extends AppCompatActivity {
         String str2=intent.getStringExtra(MakeTravelActivity.toTravel);
         data=utils.getSelectPlaces();
         SaverCB = (CheckBox)findViewById(R.id.saver_cb);
+
 
         Iterator<Place> i=data.iterator();
         while (i.hasNext())
@@ -104,6 +110,8 @@ public class MakeTravelNextActivity extends AppCompatActivity {
         Log.v("LOG",""+rv.getAdapter().getItemCount());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -276,6 +284,8 @@ public class MakeTravelNextActivity extends AppCompatActivity {
                 if (SaverCB.isChecked()) sql_route();
                 Intent intent=new Intent(getApplicationContext(),MapsActivity.class);
                 startActivity(intent);
+
+
             }
 
             @Override
@@ -286,6 +296,11 @@ public class MakeTravelNextActivity extends AppCompatActivity {
     }
 
 
+    public void ShareClick(View view){
+        showEditDialog();
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         this.onBackPressed();
@@ -295,6 +310,20 @@ public class MakeTravelNextActivity extends AppCompatActivity {
     public void sql_route(){
         helper = new DatabaseHelper(MakeTravelNextActivity.this);
         helper.insertIntoDB(SomeText, utils.getCurrentEmail());
+    }
+
+    private void showEditDialog() {
+        FragmentManager fm = getFragmentManager();
+        ShareDialogFragment ShareDialog = new ShareDialogFragment();
+        ShareDialog.show(fm, "fragment_share");
+    }
+
+    public void onFinishEditDialog(String inputText) {
+
+        helper = new DatabaseHelper(MakeTravelNextActivity.this);
+        helper.insertIntoDB(SomeText, inputText);
+
+
     }
 
 
