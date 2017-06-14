@@ -46,10 +46,10 @@
 
     <!-- Strings related to Settings -->
 
-    <string name="pref_title_add_friends_to_messages">Choose type of moving</string>
+    <string name="pref_title_add_friends_to_messages">Выберите способ передвижения</string>
     <string-array name="pref_list_titles_type_moving">
-        <item>Walking</item>
-        <item>Driving</item>
+        <item>Пешком</item>
+        <item>Автомобиль</item>
     </string-array>
     <string-array name="pref_list_values_type_moving">
         <item>0</item>
@@ -57,8 +57,8 @@
     </string-array>
 
     <string-array name="pref_list_titles_type_sorting">
-        <item>Distance</item>
-        <item>Prominence</item>
+        <item>Дистанция</item>
+        <item>Популярность</item>
     </string-array>
     <string-array name="pref_list_values_type_sorting">
         <item>0</item>

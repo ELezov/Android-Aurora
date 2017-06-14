@@ -25,11 +25,12 @@
             android:textAppearance="?attr/textAppearanceListItem"/>
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:id="@+id/addButton"
             android:scaleType="center"
             android:paddingLeft="50dp"
+            android:paddingRight="10dp"
             android:layout_marginLeft="50dp"
             android:background="@drawable/add_icon"
              />

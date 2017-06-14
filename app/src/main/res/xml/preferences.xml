@@ -4,15 +4,15 @@
     <PreferenceCategory
         android:title="Основное">
         <ListPreference
-            android:title="Choose type of moving"
-            android:summary="Select type"
+            android:title="Способ передвижения"
+            android:summary="Выбрать"
             android:key="listPref"
             android:defaultValue="-1"
             android:entries="@array/pref_list_titles_type_moving"
             android:entryValues="@array/pref_list_values_type_moving" />
         <ListPreference
-            android:title="Choose type of place sort"
-            android:summary="Select type"
+            android:title="Способ сортировки"
+            android:summary="Выбрать"
             android:key="listSortPref"
             android:defaultValue="-1"
             android:entries="@array/pref_list_titles_type_sorting"
