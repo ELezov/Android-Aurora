@@ -58,6 +58,8 @@ public class MakeTravelNextActivity extends AppCompatActivity implements ShareDi
     private RecyclerView.LayoutManager mLayoutManager;
     ProgressDialog progressDialog;
     DatabaseHelper helper;
+    Boolean Sharing = false;
+    String UserEmail;
 
 
     @Override
@@ -282,7 +284,7 @@ public class MakeTravelNextActivity extends AppCompatActivity implements ShareDi
 
 
                 progressDialog.dismiss();
-                if (SaverCB.isChecked()) sql_route();
+                sql_route();
                 Intent intent=new Intent(getApplicationContext(),MapsActivity.class);
                 startActivity(intent);
 
@@ -309,8 +311,11 @@ public class MakeTravelNextActivity extends AppCompatActivity implements ShareDi
     }
 
     public void sql_route(){
-        helper = new DatabaseHelper(MakeTravelNextActivity.this);
-        helper.insertIntoDB(SomeText, utils.getCurrentEmail());
+        if (SaverCB.isChecked()){helper = new DatabaseHelper(MakeTravelNextActivity.this);
+            helper.insertIntoDB(SomeText, utils.getCurrentEmail());}
+        if (Sharing==true){ helper = new DatabaseHelper(MakeTravelNextActivity.this);
+            helper.insertIntoDB(SomeText, UserEmail);}
+
     }
 
     private void showEditDialog() {
@@ -320,9 +325,9 @@ public class MakeTravelNextActivity extends AppCompatActivity implements ShareDi
     }
 
     public void onFinishEditDialog(String inputText) {
+        Sharing = true;
+        UserEmail = inputText;
 
-        helper = new DatabaseHelper(MakeTravelNextActivity.this);
-        helper.insertIntoDB(SomeText, inputText);
 
 
     }

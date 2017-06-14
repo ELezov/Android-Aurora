@@ -41,10 +41,10 @@
 
     <Button
         android:id="@+id/ShareButton"
-        android:layout_width="160dp"
+        android:layout_width="138dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:background="@color/colorPrimary"
+        android:background="@color/AuroraMainColor"
         android:onClick="ShareClick"
         android:text="Поделиться маршрутом"
         android:textColor="@color/vk_white" />

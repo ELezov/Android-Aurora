@@ -19,8 +19,5 @@ public interface RouteSaverAPI {
 
    @FormUrlEncoded
    @POST("api/Routes")
-        //Call<UserInfoDetail> PostUserInfo(@Field("mail") String EMAIL);
    Call<ResponseBody> RouteSaverDetail(@Field("id") int SOMEID, @Field("route") String EMAIL, @Field("user_id") int USERID);
-   //Call<ResponseBody> RouteSaverDetail(@Path("id") String postfix, @Body RequestBody params);
-    //Call<> loadRepo();
 }

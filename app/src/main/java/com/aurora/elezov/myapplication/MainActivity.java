@@ -18,6 +18,7 @@ import com.aurora.elezov.myapplication.Details.Result;
 import com.aurora.elezov.myapplication.Details.ResultDetail;
 import com.aurora.elezov.myapplication.Social.GetUserID;
 import com.aurora.elezov.myapplication.Social.GetUserInfo;
+import com.aurora.elezov.myapplication.Social.RouteSaverAPI;
 import com.aurora.elezov.myapplication.Social.UserInfoAPI;
 import com.aurora.elezov.myapplication.Social.UserInfoDetail;
 import com.facebook.AccessToken;
@@ -56,6 +57,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -281,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements
                 parameters.putString("fields", "email");
                 request.setParameters(parameters);
                 request.executeAsync();
-               // build_retrofit();
+              //  build_retrofit();
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
 
@@ -373,6 +375,8 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+
+
     private void build_retrofit() {
 
 
@@ -391,13 +395,11 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onResponse(Call<UserInfoDetail> call, Response<UserInfoDetail> response) {
-                Log.v("URL", call.request().url().toString());
                 if (response.isSuccessful()) {
-
+                    Log.v("URL", call.request().url().toString());
 
                 }
             }
-
             @Override
             public void onFailure(Call<UserInfoDetail> call, Throwable t) {
 
@@ -405,6 +407,9 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
     }
+
+
+
     private void get_retrofit() {
 
 
@@ -440,6 +445,9 @@ public class MainActivity extends AppCompatActivity implements
 
             }
         });
+
+
+
     }
 }
 

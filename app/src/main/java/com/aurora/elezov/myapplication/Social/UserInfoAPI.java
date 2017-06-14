@@ -12,7 +12,6 @@ import retrofit2.Call;
 public interface UserInfoAPI {
     @FormUrlEncoded
     @POST("api/Users")
-        //Call<UserInfoDetail> PostUserInfo(@Field("mail") String EMAIL);
     Call<UserInfoDetail> PostUserInfo(@Field("id") int SOMEID, @Field("mail") String EMAIL);
-    //Call<> loadRepo();
+
 }
