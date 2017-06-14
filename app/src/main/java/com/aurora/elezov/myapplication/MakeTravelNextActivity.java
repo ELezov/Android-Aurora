@@ -180,6 +180,7 @@ public class MakeTravelNextActivity extends AppCompatActivity implements ShareDi
                 modeValue="walking";
                 break;
         }
+
         Call<DirectionResults> call = service.getJson(lat1.toString() + "," + lon1.toString(), lat2.toString() + "," + lon2.toString(), waypoint,modeValue);
         Log.v("URL",call.request().url().toString());
         call.enqueue(new Callback<DirectionResults>() {

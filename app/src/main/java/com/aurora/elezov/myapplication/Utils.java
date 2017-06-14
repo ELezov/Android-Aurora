@@ -25,10 +25,13 @@ public class Utils {
     public DirectionResults dirResultsInfo;
     public ArrayList<LatLng> dirResults;
     public ResultDetail resultDetail;
+
     private static Utils utils;
 
     public Place toTravel;
     public Place fromTravel;
+    public String currPageToken;
+    public Boolean isLoading=false;
 
     public Place getToTravel() {
         return toTravel;
@@ -139,5 +142,19 @@ public class Utils {
         this.dirResultsInfo = dirResultsInfo;
     }
 
+    public String getCurrPageToken() {
+        return currPageToken;
+    }
 
+    public void setCurrPageToken(String currPageToken) {
+        this.currPageToken = currPageToken;
+    }
+
+    public Boolean getLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(Boolean loading) {
+        isLoading = loading;
+    }
 }

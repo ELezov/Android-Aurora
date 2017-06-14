@@ -10,6 +10,13 @@
             android:defaultValue="-1"
             android:entries="@array/pref_list_titles_type_moving"
             android:entryValues="@array/pref_list_values_type_moving" />
+        <ListPreference
+            android:title="Choose type of place sort"
+            android:summary="Select type"
+            android:key="listSortPref"
+            android:defaultValue="-1"
+            android:entries="@array/pref_list_titles_type_sorting"
+            android:entryValues="@array/pref_list_values_type_sorting" />
 
         <!--<SeekBarP-->
             <!--android:defaultValue="22"-->

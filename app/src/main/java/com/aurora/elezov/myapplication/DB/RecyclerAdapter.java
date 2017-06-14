@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aurora.elezov.myapplication.ListPlace.PlaceDetailActivity;
+import com.aurora.elezov.myapplication.MakeTravelActivity;
 import com.aurora.elezov.myapplication.MakeTravelNextActivity;
 import com.aurora.elezov.myapplication.MapsActivity;
 import com.aurora.elezov.myapplication.Place.Geometry;
@@ -112,7 +113,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                             utils=Utils.getInstance();
                             utils.setSelectPlaces(places);
                             Context context = v.getContext();
-                            Intent intent = new Intent(context, MakeTravelNextActivity.class);
+                            Intent intent = new Intent(context, MakeTravelActivity.class);
                             context.startActivity(intent);
                         }
                     }catch (JSONException e){

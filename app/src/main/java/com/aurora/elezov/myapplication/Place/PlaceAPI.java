@@ -11,7 +11,9 @@ import retrofit2.http.Query;
 public interface PlaceAPI {
     @GET("api/place/nearbysearch/json?sensor=true&language=ru&key=AIzaSyAW-79sqdAygzJ_8cJz68oFne_qtePgJ-E")
     Call<PlacesResult> getNearbyPlaces(@Query("type") String type,
+                                       @Query("pagetoken") String pageToken,
                                        @Query("location") String location,
-                                       @Query("radius") int radius);
+                                       @Query("rankby") String rankby,
+                                       @Query("radius") String radius);
 
 }
